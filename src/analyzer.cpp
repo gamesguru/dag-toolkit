@@ -3,11 +3,10 @@
 #include <algorithm>
 #include <cstdlib>
 #include <filesystem>
-#include <functional>
+#include <future>
 #include <iostream>
 #include <map>
 #include <regex>
-#include <set>
 #include <unordered_set>
 #include <vector>
 
@@ -85,8 +84,9 @@ std::vector<std::string> set_diff_sorted(
 }  // namespace
 
 void analyze(const std::string& room, const std::string& prefix, bool verbose,
-             bool rank, bool chain_analysis, const std::string& version) {
-    auto files = glob_files(".", prefix, room);
+             bool rank, bool chain_analysis, const std::string& version,
+             const std::string& workdir) {
+    auto files = glob_files(workdir, prefix, room);
     if (files.empty()) {
         std::cerr << "No files matching " << prefix << "-" << room
                   << "-*.jsonl\n";
@@ -158,95 +158,110 @@ void analyze(const std::string& room, const std::string& prefix, bool verbose,
               << "depth " << gt_min << ".." << gt_max << ", root " << gt_root
               << "\n\n";
 
-    // Per-domain analysis
-    std::vector<ServerReport> reports;
-    std::map<std::string, std::unordered_set<std::string>> domain_eids;
+    // Per-domain analysis (parallelized)
+    std::vector<std::pair<std::string, std::vector<fs::path>>> domain_list(
+        domain_files.begin(), domain_files.end());
 
-    for (const auto& [domain, dfiles] : domain_files) {
-        std::unordered_set<std::string> srv_eids;
-        int64_t min_d = INT64_MAX;
-        int64_t max_d = 0;
-        std::string root_id;
-        int64_t total_prev = 0;
-        int64_t n_events = 0;
+    std::vector<std::future<ServerReport>> futures;
+    futures.reserve(domain_list.size());
 
-        for (const auto& f : dfiles) {
-            auto fstr = f.string();
-            auto ids = load_event_ids(fstr);
-            srv_eids.insert(ids.begin(), ids.end());
+    for (const auto& [domain, dfiles] : domain_list) {
+        futures.push_back(std::async(
+            std::launch::async,
+            [&gt_members, gt_n, &version](
+                const std::string& domain,
+                const std::vector<fs::path>& dfiles) -> ServerReport {
+                std::unordered_set<std::string> srv_eids;
+                int64_t min_d = INT64_MAX;
+                int64_t max_d = 0;
+                std::string root_id;
+                int64_t total_prev = 0;
+                int64_t n_events = 0;
 
-            auto stats = get_depth_stats(fstr);
-            if (stats.min_depth < min_d) {
-                min_d = stats.min_depth;
-                root_id = stats.root_event_id;
-            }
-            if (stats.max_depth > max_d) {
-                max_d = stats.max_depth;
-            }
+                for (const auto& f : dfiles) {
+                    auto fstr = f.string();
+                    auto ids = load_event_ids(fstr);
+                    srv_eids.insert(ids.begin(), ids.end());
 
-            auto n_f = static_cast<int64_t>(ids.size());
-            total_prev += static_cast<int64_t>(stats.branching_factor *
-                                               static_cast<double>(n_f));
-            n_events += n_f;
-        }
+                    auto stats = get_depth_stats(fstr);
+                    if (stats.min_depth < min_d) {
+                        min_d = stats.min_depth;
+                        root_id = stats.root_event_id;
+                    }
+                    if (stats.max_depth > max_d) {
+                        max_d = stats.max_depth;
+                    }
 
-        domain_eids[domain] = srv_eids;
+                    auto n_f = static_cast<int64_t>(ids.size());
+                    total_prev += static_cast<int64_t>(
+                        stats.branching_factor * static_cast<double>(n_f));
+                    n_events += n_f;
+                }
 
-        ServerReport r;
-        r.server = domain;
-        r.events = static_cast<int64_t>(srv_eids.size());
-        r.min_depth = (min_d == INT64_MAX) ? 0 : min_d;
-        r.max_depth = max_d;
-        r.root = root_id;
-        r.bf = n_events > 0 ? static_cast<double>(total_prev) /
-                                  static_cast<double>(n_events)
-                            : 0.0;
+                ServerReport r;
+                r.server = domain;
+                r.events = static_cast<int64_t>(srv_eids.size());
+                r.min_depth = (min_d == INT64_MAX) ? 0 : min_d;
+                r.max_depth = max_d;
+                r.root = root_id;
+                r.bf = n_events > 0 ? static_cast<double>(total_prev) /
+                                          static_cast<double>(n_events)
+                                    : 0.0;
 
-        // State-res on this domain's files
-        std::vector<std::string> domain_file_strs;
-        std::transform(dfiles.begin(), dfiles.end(),
-                       std::back_inserter(domain_file_strs),
-                       [](const fs::path& p) { return p.string(); });
+                // State-res on this domain's files
+                std::vector<std::string> domain_file_strs;
+                std::transform(dfiles.begin(), dfiles.end(),
+                               std::back_inserter(domain_file_strs),
+                               [](const fs::path& p) { return p.string(); });
 
-        auto srv_summary = run_ruma(domain_file_strs, version);
-        std::unordered_set<std::string> srv_own_members;
+                auto srv_summary = run_ruma(domain_file_strs, version);
+                std::unordered_set<std::string> srv_own_members;
 
-        if (!srv_summary) {
-            r.res_joined = -1;
-            r.res_left = -1;
-            r.res_banned = -1;
-        } else {
-            auto members = get_members(srv_summary->root, "join");
-            srv_own_members = to_set(members);
-            r.res_joined = static_cast<int64_t>(srv_own_members.size());
+                if (!srv_summary) {
+                    r.res_joined = -1;
+                    r.res_left = -1;
+                    r.res_banned = -1;
+                } else {
+                    auto members = get_members(srv_summary->root, "join");
+                    srv_own_members = to_set(members);
+                    r.res_joined = static_cast<int64_t>(srv_own_members.size());
 
-            auto leave_m = get_members(srv_summary->root, "leave");
-            r.res_left = static_cast<int64_t>(leave_m.size());
+                    auto leave_m = get_members(srv_summary->root, "leave");
+                    r.res_left = static_cast<int64_t>(leave_m.size());
 
-            auto ban_m = get_members(srv_summary->root, "ban");
-            r.res_banned = static_cast<int64_t>(ban_m.size());
-        }
+                    auto ban_m = get_members(srv_summary->root, "ban");
+                    r.res_banned = static_cast<int64_t>(ban_m.size());
+                }
 
-        r.missing_users = set_diff_sorted(gt_members, srv_own_members);
-        r.extra_users = set_diff_sorted(srv_own_members, gt_members);
-        r.missing = static_cast<int64_t>(r.missing_users.size());
-        r.extra = static_cast<int64_t>(r.extra_users.size());
+                r.missing_users = set_diff_sorted(gt_members, srv_own_members);
+                r.extra_users = set_diff_sorted(srv_own_members, gt_members);
+                r.missing = static_cast<int64_t>(r.missing_users.size());
+                r.extra = static_cast<int64_t>(r.extra_users.size());
 
-        // F1 from resolved user IDs
-        auto tp = set_intersect(gt_members, srv_own_members).size();
-        r.precision = srv_own_members.empty()
-                          ? 0.0
-                          : static_cast<double>(tp) /
-                                static_cast<double>(srv_own_members.size());
-        r.recall = gt_n == 0
-                       ? 0.0
-                       : static_cast<double>(tp) / static_cast<double>(gt_n);
-        r.f1 = (r.precision + r.recall) > 0.0
-                   ? 2.0 * r.precision * r.recall / (r.precision + r.recall)
-                   : 0.0;
+                auto tp = set_intersect(gt_members, srv_own_members).size();
+                r.precision =
+                    srv_own_members.empty()
+                        ? 0.0
+                        : static_cast<double>(tp) /
+                              static_cast<double>(srv_own_members.size());
+                r.recall = gt_n == 0 ? 0.0
+                                     : static_cast<double>(tp) /
+                                           static_cast<double>(gt_n);
+                r.f1 = (r.precision + r.recall) > 0.0
+                           ? 2.0 * r.precision * r.recall /
+                                 (r.precision + r.recall)
+                           : 0.0;
 
-        reports.push_back(std::move(r));
+                return r;
+            },
+            domain, dfiles));
     }
+
+    // Collect results
+    std::vector<ServerReport> reports;
+    reports.reserve(futures.size());
+    std::transform(futures.begin(), futures.end(), std::back_inserter(reports),
+                   [](std::future<ServerReport>& f) { return f.get(); });
 
     // Sort by F1 if ranking
     if (rank) {
@@ -260,6 +275,15 @@ void analyze(const std::string& room, const std::string& prefix, bool verbose,
 
     // Chain analysis
     if (!chain_analysis) return;
+
+    // Build per-domain event ID sets for chain analysis
+    std::map<std::string, std::unordered_set<std::string>> domain_eids;
+    for (const auto& [domain, dfiles] : domain_files) {
+        for (const auto& f : dfiles) {
+            auto ids = load_event_ids(f.string());
+            domain_eids[domain].insert(ids.begin(), ids.end());
+        }
+    }
 
     // Target all state event IDs
     std::unordered_set<std::string> target_eids;
@@ -356,10 +380,14 @@ void profile(const std::string& room, const std::string& prefix,
     std::transform(files.begin(), files.end(), std::back_inserter(paths),
                    [](const fs::path& p) { return p.string(); });
 
-    std::cerr << "Profiling " << paths.size() << " file(s), " << paths.size()
-              << " server DAG(s)...\n";
+    profile_files(paths, output_path);
+}
 
-    auto merged = get_merged_depth_profile(paths);
+void profile_files(const std::vector<std::string>& files,
+                   const std::string& output_path) {
+    std::cerr << "Profiling " << files.size() << " file(s)...\n";
+
+    auto merged = get_merged_depth_profile(files);
     write_profile_csv(merged, output_path);
 
     // Summary stats
@@ -399,6 +427,161 @@ void profile(const std::string& room, const std::string& prefix,
               << ", avg BF: " << bf_buf << ", peak BF: " << max_bf_buf
               << " @ depth " << max_bf_depth
               << ", storm depths (>2.0): " << storm_depths << "\n";
+}
+
+void analyze_files(const std::vector<std::string>& files, bool verbose,
+                   bool rank, bool chain_analysis, const std::string& version) {
+    if (files.empty()) {
+        std::cerr << "No input files\n";
+        std::exit(1);
+    }
+
+    // Derive domain grouping from filenames
+    std::map<std::string, std::vector<fs::path>> domain_files;
+    for (const auto& f : files) {
+        fs::path p(f);
+        std::string stem = p.stem().string();
+        std::string base = strip_domain_suffix(stem);
+        domain_files[base].push_back(p);
+    }
+
+    // Ground truth: merge all files
+    std::cerr << "Merging " << files.size() << " server DAGs...\n";
+    auto gt = run_ruma(files, version);
+    if (!gt) {
+        std::cerr << "Failed to compute ground truth\n";
+        std::exit(1);
+    }
+
+    auto gt_members_vec = get_members(gt->root, "join");
+    auto gt_members = to_set(gt_members_vec);
+    auto gt_member_eids = get_member_event_ids(gt->root);
+    auto gt_n = gt_members.size();
+
+    int64_t gt_left = 0, gt_banned = 0;
+    if (auto it = gt_member_eids.find("leave"); it != gt_member_eids.end()) {
+        gt_left = static_cast<int64_t>(it->second.size());
+    }
+    if (auto it = gt_member_eids.find("ban"); it != gt_member_eids.end()) {
+        gt_banned = static_cast<int64_t>(it->second.size());
+    }
+
+    int64_t gt_events = 0, gt_min = 0, gt_max = 0;
+    std::string gt_root;
+    try {
+        gt_events = gt->root["total_events"].get_int64().value();
+    } catch (...) {
+    }
+    try {
+        gt_min = gt->root["min_depth"].get_int64().value();
+    } catch (...) {
+    }
+    try {
+        gt_max = gt->root["max_depth"].get_int64().value();
+    } catch (...) {
+    }
+    try {
+        std::string_view sv = gt->root["root_event_id"].get_string().value();
+        gt_root = std::string(sv);
+    } catch (...) {
+    }
+
+    std::cout << "ground truth: " << gt_n << " joined, " << gt_left << " left, "
+              << gt_banned << " banned, " << gt_events << " events, "
+              << "depth " << gt_min << ".." << gt_max << ", root " << gt_root
+              << "\n\n";
+
+    // Per-domain analysis (same as analyze())
+    std::vector<ServerReport> reports;
+
+    for (const auto& [domain, dfiles] : domain_files) {
+        std::unordered_set<std::string> srv_eids;
+        int64_t min_d = INT64_MAX;
+        int64_t max_d = 0;
+        std::string root_id;
+        int64_t total_prev = 0;
+        int64_t n_events = 0;
+
+        for (const auto& f : dfiles) {
+            auto fstr = f.string();
+            auto ids = load_event_ids(fstr);
+            srv_eids.insert(ids.begin(), ids.end());
+
+            auto stats = get_depth_stats(fstr);
+            if (stats.min_depth < min_d) {
+                min_d = stats.min_depth;
+                root_id = stats.root_event_id;
+            }
+            if (stats.max_depth > max_d) {
+                max_d = stats.max_depth;
+            }
+
+            auto n_f = static_cast<int64_t>(ids.size());
+            total_prev += static_cast<int64_t>(stats.branching_factor *
+                                               static_cast<double>(n_f));
+            n_events += n_f;
+        }
+
+        ServerReport r;
+        r.server = domain;
+        r.events = static_cast<int64_t>(srv_eids.size());
+        r.min_depth = (min_d == INT64_MAX) ? 0 : min_d;
+        r.max_depth = max_d;
+        r.root = root_id;
+        r.bf = n_events > 0 ? static_cast<double>(total_prev) /
+                                  static_cast<double>(n_events)
+                            : 0.0;
+
+        std::vector<std::string> domain_file_strs;
+        std::transform(dfiles.begin(), dfiles.end(),
+                       std::back_inserter(domain_file_strs),
+                       [](const fs::path& p) { return p.string(); });
+
+        auto srv_summary = run_ruma(domain_file_strs, version);
+        std::unordered_set<std::string> srv_own_members;
+
+        if (!srv_summary) {
+            r.res_joined = -1;
+            r.res_left = -1;
+            r.res_banned = -1;
+        } else {
+            auto members = get_members(srv_summary->root, "join");
+            srv_own_members = to_set(members);
+            r.res_joined = static_cast<int64_t>(srv_own_members.size());
+            r.res_left = static_cast<int64_t>(
+                get_members(srv_summary->root, "leave").size());
+            r.res_banned = static_cast<int64_t>(
+                get_members(srv_summary->root, "ban").size());
+        }
+
+        r.missing_users = set_diff_sorted(gt_members, srv_own_members);
+        r.extra_users = set_diff_sorted(srv_own_members, gt_members);
+        r.missing = static_cast<int64_t>(r.missing_users.size());
+        r.extra = static_cast<int64_t>(r.extra_users.size());
+
+        auto tp = set_intersect(gt_members, srv_own_members).size();
+        r.precision = srv_own_members.empty()
+                          ? 0.0
+                          : static_cast<double>(tp) /
+                                static_cast<double>(srv_own_members.size());
+        r.recall = gt_n == 0
+                       ? 0.0
+                       : static_cast<double>(tp) / static_cast<double>(gt_n);
+        r.f1 = (r.precision + r.recall) > 0.0
+                   ? 2.0 * r.precision * r.recall / (r.precision + r.recall)
+                   : 0.0;
+
+        reports.push_back(std::move(r));
+    }
+
+    if (rank) {
+        std::sort(reports.begin(), reports.end(),
+                  [](const ServerReport& a, const ServerReport& b) {
+                      return a.f1 > b.f1;
+                  });
+    }
+
+    display_reports(reports, rank, verbose);
 }
 
 }  // namespace dag

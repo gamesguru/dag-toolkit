@@ -40,20 +40,32 @@ std::string pad_left(const std::string& s, int width) {
 
 void display_reports(const std::vector<ServerReport>& reports, bool rank,
                      bool verbose) {
+    // Compute dynamic column widths
+    int srv_w = std::accumulate(
+        reports.begin(), reports.end(), 6, [](int acc, const ServerReport& r) {
+            return std::max(acc, static_cast<int>(r.server.size()));
+        });
+    int root_w = std::accumulate(
+        reports.begin(), reports.end(), 4, [](int acc, const ServerReport& r) {
+            return std::max(acc, static_cast<int>(r.root.size()));
+        });
+
     // Header
     std::ostringstream hdr;
     if (rank) {
-        hdr << pad_right("#", 3) << " " << pad_right("SERVER", 26) << " "
+        hdr << pad_right("#", 3) << " " << pad_right("SERVER", srv_w) << " "
             << pad_left("JOINED", 6) << " " << pad_left("LEFT", 5) << " "
             << pad_left("BAN", 4) << " " << pad_left("EVENTS", 6) << " "
             << pad_left("BF", 5) << " " << pad_left("PREC", 6) << " "
             << pad_left("RECALL", 6) << " " << pad_left("F1", 6) << " "
-            << pad_left("DIFF", 10) << " " << pad_right("DEPTH", 14) << " ROOT";
+            << pad_left("DIFF", 10) << " " << pad_right("DEPTH", 14) << " "
+            << pad_right("ROOT", root_w);
     } else {
-        hdr << pad_right("SERVER", 26) << " " << pad_left("JOINED", 6) << " "
+        hdr << pad_right("SERVER", srv_w) << " " << pad_left("JOINED", 6) << " "
             << pad_left("LEFT", 5) << " " << pad_left("BAN", 4) << " "
             << pad_left("EVENTS", 6) << " " << pad_left("BF", 5) << " "
-            << pad_right("DEPTH", 14) << " " << pad_left("DIFF", 10) << " ROOT";
+            << pad_right("DEPTH", 14) << " " << pad_left("DIFF", 10) << " "
+            << pad_right("ROOT", root_w);
     }
 
     std::string header = hdr.str();
@@ -104,7 +116,7 @@ void display_reports(const std::vector<ServerReport>& reports, bool rank,
 
         if (rank) {
             std::cout << pad_right(std::to_string(idx), 3) << " "
-                      << pad_right(r.server, 26) << " " << pad_left(j_str, 6)
+                      << pad_right(r.server, srv_w) << " " << pad_left(j_str, 6)
                       << " " << pad_left(l_str, 5) << " " << pad_left(b_str, 4)
                       << " " << pad_left(std::to_string(r.events), 6) << " "
                       << pad_left(bf_str, 5) << " " << pad_left(prec_str, 6)
@@ -112,7 +124,7 @@ void display_reports(const std::vector<ServerReport>& reports, bool rank,
                       << pad_left(f1_str, 6) << " " << pad_left(diff, 10) << " "
                       << pad_right(depth, 14) << " " << r.root << "\n";
         } else {
-            std::cout << pad_right(r.server, 26) << " " << pad_left(j_str, 6)
+            std::cout << pad_right(r.server, srv_w) << " " << pad_left(j_str, 6)
                       << " " << pad_left(l_str, 5) << " " << pad_left(b_str, 4)
                       << " " << pad_left(std::to_string(r.events), 6) << " "
                       << pad_left(bf_str, 5) << " " << pad_right(depth, 14)

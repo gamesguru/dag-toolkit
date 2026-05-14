@@ -170,6 +170,21 @@ graph: ##H Render DAG graph (FILE=events.jsonl [DEPTH=lo:hi] [OUT=dag.png])
 	@dot -Tpng /tmp/dag.dot -o $(or $(OUT),/tmp/dag.png)
 	@$(call print_success,$(or $(OUT),/tmp/dag.png))
 
+.PHONY: merge
+merge: ##H Merge JSONL files (ROOM=slug DIR=path [OUT=merged.jsonl])
+	@test -n "$(ROOM)" || (echo "Usage: make merge ROOM=<slug> DIR=<path> [OUT=merged.jsonl]" && exit 1)
+	@python3 viz/dagmerge.py -d $(or $(DIR),.) --room $(ROOM) -o $(or $(OUT),merged.jsonl)
+
+.PHONY: stormviz
+stormviz: ##H Auto-detect and render storm graphs (FILE=merged.jsonl | ROOM=slug DIR=path)
+	@if [ -n "$(FILE)" ]; then \
+		python3 viz/dagstorms.py $(FILE) $(if $(THRESHOLD),--threshold $(THRESHOLD),) $(if $(TOP),--top $(TOP),) $(if $(OUT),-o $(OUT),); \
+	elif [ -n "$(ROOM)" ]; then \
+		python3 viz/dagstorms.py -d $(or $(DIR),.) --room $(ROOM) $(if $(THRESHOLD),--threshold $(THRESHOLD),) $(if $(TOP),--top $(TOP),) $(if $(OUT),-o $(OUT),); \
+	else \
+		echo "Usage: make stormviz FILE=<merged.jsonl> | ROOM=<slug> DIR=<path>"; exit 1; \
+	fi
+
 synthesizer: src/synthesizer.cpp src/hpc_core.hpp ##H Build the C++ tree synthesizer
 	@$(call print_info,Building synthesizer)
 	g++ -O3 -march=native -std=c++17 -o synthesizer src/synthesizer.cpp

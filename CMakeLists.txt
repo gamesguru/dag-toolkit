@@ -26,7 +26,8 @@ add_executable(dagcmp
 )
 
 target_include_directories(dagcmp PRIVATE src)
-target_link_libraries(dagcmp PRIVATE PkgConfig::SIMDJSON)
+find_package(Threads REQUIRED)
+target_link_libraries(dagcmp PRIVATE PkgConfig::SIMDJSON Threads::Threads)
 
 # --- Tests ---
 enable_testing()

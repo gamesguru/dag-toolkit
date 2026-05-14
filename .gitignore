@@ -29,6 +29,7 @@ depth5_sweep
 firefighter
 landscape_txz
 *.pdf
+/*.jsonl
 
 # LaTeX build artifacts
 *.aux
