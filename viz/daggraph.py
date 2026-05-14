@@ -112,6 +112,11 @@ def render_dot(
     lines = [
         f'digraph "{title}" {{',
         "  rankdir=TB;",
+        f'  label="{title}";',
+        "  labelloc=t;",
+        "  labeljust=c;",
+        "  fontsize=14;",
+        '  fontname="monospace bold";',
         '  node [shape=box, style="filled,rounded", fontsize=9, fontname="monospace"];',
         '  edge [color="#7f8c8d"];',
         "",
@@ -298,7 +303,57 @@ def main():
                 file=sys.stderr,
             )
 
-    dot = render_dot(events, title=args.title, all_idx=all_idx, primary_ids=primary_ids)
+    # Build descriptive title
+    import os
+
+    basename = os.path.splitext(os.path.basename(args.jsonl))[0]
+    # Strip "merged-" prefix for cleaner display
+    room_label = (
+        basename.replace("merged-", "", 1)
+        if basename.startswith("merged-")
+        else basename
+    )
+
+    # Compute date and depth range from primary events
+    primary = [
+        ev for ev in events if primary_ids is None or ev.get("event_id") in primary_ids
+    ]
+    if primary:
+        timestamps = [
+            ev.get("origin_server_ts", 0)
+            for ev in primary
+            if ev.get("origin_server_ts")
+        ]
+        depths = [ev.get("depth", 0) for ev in primary]
+        depth_str = f"depth {min(depths)}..{max(depths)}"
+        if timestamps:
+            dt_min = datetime.fromtimestamp(min(timestamps) / 1000, tz=timezone.utc)
+            dt_max = datetime.fromtimestamp(max(timestamps) / 1000, tz=timezone.utc)
+            if dt_min.date() == dt_max.date():
+                date_str = dt_min.strftime("%-d %b %Y")
+            else:
+                date_str = (
+                    f"{dt_min.strftime('%-d %b')} – {dt_max.strftime('%-d %b %Y')}"
+                )
+        else:
+            date_str = ""
+    else:
+        depth_str = ""
+        date_str = ""
+
+    title_lines = [f"DAG – {room_label}"]
+    if date_str:
+        title_lines.append(date_str)
+    if depth_str:
+        title_lines.append(depth_str)
+    auto_title = "\\n".join(title_lines)
+
+    dot = render_dot(
+        events,
+        title=auto_title,
+        all_idx=all_idx,
+        primary_ids=primary_ids,
+    )
 
     if args.output:
         with open(args.output, "w") as f:
