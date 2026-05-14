@@ -164,11 +164,15 @@ storms: ##H Visualize fork storms (CSV=profile.csv [THRESHOLD=2.0] [OUT=plot.png
 	@python3 viz/dagviz.py $(CSV) $(if $(THRESHOLD),--threshold $(THRESHOLD),) $(if $(OUT),--output $(OUT),) $(if $(HEATMAP),--heatmap,)
 
 .PHONY: graph
-graph: ##H Render DAG graph (FILE=events.jsonl [DEPTH=lo:hi] [OUT=dag.png])
+graph: ##H Render DAG graph (FILE=events.jsonl [DEPTH=lo:hi] [FOLLOW=N] [OUT=dag.png])
 	@test -n "$(FILE)" || (echo "Usage: make graph FILE=<events.jsonl> [DEPTH=lo:hi]" && exit 1)
-	@python3 viz/daggraph.py $(FILE) $(if $(DEPTH),--depth $(DEPTH),) -o /tmp/dag.dot
-	@dot -Tpng /tmp/dag.dot -o $(or $(OUT),/tmp/dag.png)
-	@$(call print_success,$(or $(OUT),/tmp/dag.png))
+	$(eval _DSUF := $(if $(DEPTH),_$(subst :,-,$(DEPTH)),))
+	$(eval _FSUF := $(if $(FOLLOW),_f$(FOLLOW),))
+	$(eval _MSUF := $(if $(MAXNODES),_n$(MAXNODES),))
+	$(eval _OUT := $(or $(OUT),/tmp/dag$(_DSUF)$(_FSUF)$(_MSUF).png))
+	@python3 viz/daggraph.py $(FILE) $(if $(DEPTH),--depth $(DEPTH),) $(if $(FOLLOW),--follow $(FOLLOW),) $(if $(MAXNODES),--max-nodes $(MAXNODES),) -o /tmp/dag$(_DSUF)$(_FSUF)$(_MSUF).dot
+	@dot -Tpng /tmp/dag$(_DSUF)$(_FSUF)$(_MSUF).dot -o $(_OUT)
+	@$(call print_success,$(_OUT))
 
 .PHONY: merge
 merge: ##H Merge JSONL files (ROOM=slug DIR=path [OUT=merged.jsonl])

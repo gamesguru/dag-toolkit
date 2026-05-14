@@ -449,6 +449,19 @@ void analyze_files(const std::vector<std::string>& files, bool verbose,
     std::cerr << "Merging " << files.size() << " server DAGs...\n";
     auto gt = run_ruma(files, version);
     if (!gt) {
+        // Single merged file: show profile stats without comparison
+        if (files.size() == 1) {
+            auto stats = get_depth_stats(files[0]);
+            auto ids = load_event_ids(files[0]);
+            std::cout << "Summary: " << ids.size() << " events, "
+                      << "depth " << stats.min_depth << ".." << stats.max_depth
+                      << ", BF " << std::fixed << std::setprecision(3)
+                      << stats.branching_factor << ", root "
+                      << stats.root_event_id << "\n";
+            std::cout << "\nTip: use --profile for per-depth BF data, "
+                      << "or viz/dagstorms.py for storm detection.\n";
+            return;
+        }
         std::cerr << "Failed to compute ground truth\n";
         std::exit(1);
     }

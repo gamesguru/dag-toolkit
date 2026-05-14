@@ -1,5 +1,5 @@
+#include <algorithm>
 #include <cstring>
-#include <filesystem>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -50,6 +50,35 @@ int main(int argc, char* argv[]) {
     }
 
     for (; i < argc; ++i) {
+        // Expand combined short flags (e.g. -cr -> -c -r)
+        std::string arg = argv[i];
+        if (arg.size() > 2 && arg[0] == '-' && arg[1] != '-') {
+            static const std::string bool_flags = "vrch";
+            bool all_bool =
+                std::all_of(arg.begin() + 1, arg.end(), [&](char c) {
+                    return bool_flags.find(c) != std::string::npos;
+                });
+            if (all_bool) {
+                for (size_t j = 1; j < arg.size(); ++j) {
+                    switch (arg[j]) {
+                        case 'v':
+                            verbose = true;
+                            break;
+                        case 'r':
+                            rank = true;
+                            break;
+                        case 'c':
+                            chain = true;
+                            break;
+                        case 'h':
+                            usage(argv[0]);
+                            return 0;
+                    }
+                }
+                continue;
+            }
+        }
+
         if ((std::strcmp(argv[i], "-i") == 0 ||
              std::strcmp(argv[i], "--input") == 0) &&
             i + 1 < argc) {

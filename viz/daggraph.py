@@ -14,6 +14,7 @@ import argparse
 import json
 import sys
 from collections import defaultdict
+from datetime import datetime, timezone
 
 
 def load_events(path: str) -> list[dict]:
@@ -51,17 +52,37 @@ def event_label(ev: dict) -> str:
     if sender.startswith("@"):
         sender = sender.split(":")[0][1:]
 
-    parts = [f"d{depth}", short_type]
+    # Timestamp
+    ts = ev.get("origin_server_ts", 0)
+    if ts:
+        dt = datetime.fromtimestamp(ts / 1000, tz=timezone.utc)
+        ts_str = dt.strftime("%-d %b %Y, %H:%M")
+    else:
+        ts_str = ""
+
+    parts = [f"d={depth}", short_type]
     if etype == "m.room.member":
         membership = ev.get("content", {}).get("membership", "?")
+        prev_membership = (
+            ev.get("unsigned", {}).get("prev_content", {}).get("membership")
+        )
         sk = ev.get("state_key", "")
-        if sk.startswith("@"):
-            sk = sk.split(":")[0][1:]
-        parts.append(f"{membership}:{sk}")
+
+        # Same membership as before → profile update (rename/avatar)
+        if prev_membership == membership and prev_membership is not None:
+            displayname = ev.get("content", {}).get("displayname", sk)
+            # Escape for DOT label
+            displayname = displayname.replace('"', "'").replace("\\", "")
+            parts.append(f"rename:{displayname}")
+        else:
+            parts.append(f"{membership}:{sk}")
     elif sender:
         parts.append(sender)
 
-    return f"{eid}\\n{' '.join(parts)}"
+    label = f"{eid}\\n{' '.join(parts)}"
+    if ts_str:
+        label += f"\\n{ts_str}"
+    return label
 
 
 def event_color(ev: dict) -> str:
@@ -82,7 +103,12 @@ def event_color(ev: dict) -> str:
     return "#bdc3c7"
 
 
-def render_dot(events: list[dict], title: str = "DAG") -> str:
+def render_dot(
+    events: list[dict],
+    title: str = "DAG",
+    all_idx: dict | None = None,
+    primary_ids: set | None = None,
+) -> str:
     lines = [
         f'digraph "{title}" {{',
         "  rankdir=TB;",
@@ -108,11 +134,14 @@ def render_dot(events: list[dict], title: str = "DAG") -> str:
         n_prev = len(ev.get("prev_events", []))
         # Thicker border for high-fanin events
         penwidth = "2.0" if n_prev > 2 else "1.0"
+        is_followed = primary_ids is not None and eid not in primary_ids
+        style = '"dashed,filled,rounded"' if is_followed else '"filled,rounded"'
+        fill = "#f5f5f5" if is_followed else color
         node_id = (
             eid.replace("$", "e_").replace("-", "_").replace("+", "_").replace("/", "_")
         )
         lines.append(
-            f'  "{node_id}" [label="{label}", fillcolor="{color}", penwidth={penwidth}];'
+            f'  "{node_id}" [label="{label}", style={style}, fillcolor="{fill}", penwidth={penwidth}];'
         )
 
     lines.append("")
@@ -134,8 +163,13 @@ def render_dot(events: list[dict], title: str = "DAG") -> str:
                 lines.append(f'  "{src}" -> "{dst}";')
             else:
                 # External reference — dashed edge to phantom node
+                if all_idx and prev in all_idx:
+                    ext = all_idx[prev]
+                    ext_label = event_label(ext)
+                else:
+                    ext_label = f"{short_id(prev)}\\n(external)"
                 lines.append(
-                    f'  "{src}" [label="{short_id(prev)}\\n(external)", '
+                    f'  "{src}" [label="{ext_label}", '
                     f'style="dashed,rounded", fillcolor="#f5f5f5"];'
                 )
                 lines.append(f'  "{src}" -> "{dst}" [style=dashed];')
@@ -159,12 +193,65 @@ def render_dot(events: list[dict], title: str = "DAG") -> str:
     return "\n".join(lines)
 
 
+def follow_externals(
+    events: list[dict],
+    all_events_idx: dict[str, dict],
+    max_hops: int,
+    max_nodes: int = 0,
+) -> list[dict]:
+    """Recursively resolve external prev_events up to max_hops levels."""
+    included = {ev["event_id"] for ev in events}
+    frontier = set()
+
+    # Seed frontier with external refs from current events
+    for ev in events:
+        for prev in ev.get("prev_events", []):
+            if prev not in included:
+                frontier.add(prev)
+
+    added = []
+    for _hop in range(max_hops):
+        if not frontier:
+            break
+        if max_nodes > 0 and len(added) >= max_nodes:
+            break
+        next_frontier: set[str] = set()
+        for eid in frontier:
+            if max_nodes > 0 and len(added) >= max_nodes:
+                break
+            if eid in all_events_idx and eid not in included:
+                ev = all_events_idx[eid]
+                added.append(ev)
+                included.add(eid)
+                for prev in ev.get("prev_events", []):
+                    if prev not in included:
+                        next_frontier.add(prev)
+        frontier = next_frontier
+
+    return events + added
+
+
 def main():
     parser = argparse.ArgumentParser(description="Render Matrix DAG as graphviz DOT")
     parser.add_argument("jsonl", help="JSONL file with Matrix events")
     parser.add_argument(
         "--depth",
         help="Depth range filter, e.g. 7850:7860",
+    )
+    parser.add_argument(
+        "--follow",
+        "-f",
+        type=int,
+        default=0,
+        metavar="N",
+        help="Follow external prev_events up to N hops beyond depth window",
+    )
+    parser.add_argument(
+        "--max-nodes",
+        type=int,
+        default=0,
+        metavar="N",
+        help="Cap total followed nodes (0 = unlimited)",
     )
     parser.add_argument(
         "--output",
@@ -179,12 +266,17 @@ def main():
     )
     args = parser.parse_args()
 
-    events = load_events(args.jsonl)
-    if not events:
+    all_events = load_events(args.jsonl)
+    if not all_events:
         print("No events found", file=sys.stderr)
         sys.exit(1)
 
-    print(f"Loaded {len(events)} events", file=sys.stderr)
+    print(f"Loaded {len(all_events)} events", file=sys.stderr)
+
+    # Build full index for --follow lookups
+    all_idx = {ev["event_id"]: ev for ev in all_events if "event_id" in ev}
+
+    events = all_events
 
     # Filter by depth range
     if args.depth:
@@ -194,7 +286,19 @@ def main():
         events = [e for e in events if lo <= e.get("depth", 0) <= hi]
         print(f"Filtered to {len(events)} events in depth {lo}..{hi}", file=sys.stderr)
 
-    dot = render_dot(events, title=args.title)
+    # Follow external refs
+    primary_ids = {ev["event_id"] for ev in events}
+    if args.follow > 0 and args.depth:
+        before = len(events)
+        events = follow_externals(events, all_idx, args.follow, args.max_nodes)
+        extra = len(events) - before
+        if extra:
+            print(
+                f"Followed {extra} external events ({args.follow} hops)",
+                file=sys.stderr,
+            )
+
+    dot = render_dot(events, title=args.title, all_idx=all_idx, primary_ids=primary_ids)
 
     if args.output:
         with open(args.output, "w") as f:
