@@ -10,11 +10,10 @@
 
 namespace dag {
 
-std::optional<RumaSummary> run_ruma(
-    const std::vector<std::string>& files,
-    const std::string& version) {
-
-    // Build command: ruma-lean -q -i f1 -i f2 ... --state-res <version> -f summary
+std::optional<RumaSummary> run_ruma(const std::vector<std::string>& files,
+                                    const std::string& version) {
+    // Build command: ruma-lean -q -i f1 -i f2 ... --state-res <version> -f
+    // summary
     std::ostringstream cmd;
     cmd << "ruma-lean -q";
     for (const auto& f : files) {
@@ -25,8 +24,11 @@ std::optional<RumaSummary> run_ruma(
     std::string cmd_str = cmd.str();
 
     // Execute and capture stdout
-    std::unique_ptr<FILE, decltype(&pclose)> pipe(
-        popen(cmd_str.c_str(), "r"), pclose);
+    auto pipe_deleter = [](FILE* f) {
+        if (f) pclose(f);
+    };
+    std::unique_ptr<FILE, decltype(pipe_deleter)> pipe(
+        popen(cmd_str.c_str(), "r"), pipe_deleter);
 
     if (!pipe) {
         return std::nullopt;
@@ -47,7 +49,8 @@ std::optional<RumaSummary> run_ruma(
         return std::nullopt;
     }
 
-    // Parse with simdjson DOM (the output is a single JSON object, not streaming)
+    // Parse with simdjson DOM (the output is a single JSON object, not
+    // streaming)
     RumaSummary result;
     result.parser = std::make_unique<simdjson::dom::parser>();
     result.json_buf = std::make_unique<simdjson::padded_string>(output);
@@ -61,10 +64,8 @@ std::optional<RumaSummary> run_ruma(
     return result;
 }
 
-std::vector<std::string> get_members(
-    const simdjson::dom::element& summary,
-    const std::string& category) {
-
+std::vector<std::string> get_members(const simdjson::dom::element& summary,
+                                     const std::string& category) {
     std::vector<std::string> users;
     try {
         auto membership = summary["membership"];
@@ -86,7 +87,6 @@ std::vector<std::string> get_members(
 
 std::map<std::string, std::vector<MemberEntry>> get_member_event_ids(
     const simdjson::dom::element& summary) {
-
     std::map<std::string, std::vector<MemberEntry>> result;
     const char* categories[] = {"join", "leave", "ban", "invite", "knock"};
 
@@ -96,13 +96,11 @@ std::map<std::string, std::vector<MemberEntry>> get_member_event_ids(
             auto cat_data = summary["membership"][cat];
             auto user_array = cat_data["users"];
             for (auto user : user_array.get_array()) {
-                MemberEntry entry;
                 std::string_view uid_sv, eid_sv;
                 if (!user["user_id"].get_string().get(uid_sv) &&
                     !user["event_id"].get_string().get(eid_sv)) {
-                    entry.user_id = std::string(uid_sv);
-                    entry.event_id = std::string(eid_sv);
-                    entries.push_back(std::move(entry));
+                    entries.push_back(
+                        {std::string(uid_sv), std::string(eid_sv)});
                 }
             }
         } catch (...) {

@@ -14,7 +14,8 @@ namespace {
 // simdjson requires padded strings for ondemand parsing.
 // We read each line, then parse with padded_string.
 
-std::string read_string_field(simdjson::ondemand::object& obj, std::string_view key) {
+std::string read_string_field(simdjson::ondemand::object& obj,
+                              std::string_view key) {
     auto val = obj.find_field_unordered(key);
     if (val.error()) return {};
     std::string_view sv;
@@ -30,7 +31,8 @@ int64_t read_int_field(simdjson::ondemand::object& obj, std::string_view key) {
     return v;
 }
 
-std::vector<std::string> read_string_array(simdjson::ondemand::object& obj, std::string_view key) {
+std::vector<std::string> read_string_array(simdjson::ondemand::object& obj,
+                                           std::string_view key) {
     std::vector<std::string> result;
     auto arr = obj.find_field_unordered(key);
     if (arr.error()) return result;
@@ -162,8 +164,9 @@ DepthStats get_depth_stats(const std::string& path) {
         if (!arr.error()) {
             simdjson::ondemand::array a;
             if (!arr.get_array().get(a)) {
-                for ([[maybe_unused]] auto elem : a) {
-                    ++total_prev;
+                size_t count = 0;
+                if (!a.count_elements().get(count)) {
+                    total_prev += static_cast<int64_t>(count);
                 }
             }
         }
@@ -173,9 +176,9 @@ DepthStats get_depth_stats(const std::string& path) {
 
     stats.min_depth = (min_d == INT64_MAX) ? 0 : min_d;
     stats.max_depth = max_d;
-    stats.branching_factor = n_events > 0
-        ? static_cast<double>(total_prev) / static_cast<double>(n_events)
-        : 0.0;
+    stats.branching_factor = n_events > 0 ? static_cast<double>(total_prev) /
+                                                static_cast<double>(n_events)
+                                          : 0.0;
 
     return stats;
 }
@@ -204,8 +207,9 @@ std::map<int64_t, DepthBucket> get_depth_profile(const std::string& path) {
         if (!arr.error()) {
             simdjson::ondemand::array a;
             if (!arr.get_array().get(a)) {
-                for ([[maybe_unused]] auto elem : a) {
-                    ++prev_count;
+                size_t count = 0;
+                if (!a.count_elements().get(count)) {
+                    prev_count = static_cast<int64_t>(count);
                 }
             }
         }

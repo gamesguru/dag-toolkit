@@ -36,3 +36,9 @@ landscape_txz
 *.blg
 *.log
 *.out
+
+# Build files
+build/
+compile_commands.json
+*.o
+*.d

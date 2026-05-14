@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <optional>
 #include <string>
 #include <vector>
@@ -21,14 +22,12 @@ struct RumaSummary {
 /// Run ruma-lean on the given JSONL files and return the parsed JSON summary.
 /// Returns nullopt on failure (non-zero exit, bad JSON, etc).
 [[nodiscard]] std::optional<RumaSummary> run_ruma(
-    const std::vector<std::string>& files,
-    const std::string& version = "v2-1");
+    const std::vector<std::string>& files, const std::string& version = "v2-1");
 
-/// Extract user IDs belonging to a membership category from a ruma-lean summary.
-/// category: "join", "leave", "ban", "invite", "knock"
+/// Extract user IDs belonging to a membership category from a ruma-lean
+/// summary. category: "join", "leave", "ban", "invite", "knock"
 [[nodiscard]] std::vector<std::string> get_members(
-    const simdjson::dom::element& summary,
-    const std::string& category);
+    const simdjson::dom::element& summary, const std::string& category);
 
 /// Extract member event_ids: category -> {user_id: event_id}
 struct MemberEntry {
@@ -36,7 +35,7 @@ struct MemberEntry {
     std::string event_id;
 };
 
-[[nodiscard]] std::map<std::string, std::vector<MemberEntry>> get_member_event_ids(
-    const simdjson::dom::element& summary);
+[[nodiscard]] std::map<std::string, std::vector<MemberEntry>>
+get_member_event_ids(const simdjson::dom::element& summary);
 
 }  // namespace dag

@@ -26,9 +26,9 @@ struct DepthBucket {
     int64_t total_prev_events = 0;
 
     [[nodiscard]] double bf() const {
-        return event_count > 0
-            ? static_cast<double>(total_prev_events) / static_cast<double>(event_count)
-            : 0.0;
+        return event_count > 0 ? static_cast<double>(total_prev_events) /
+                                     static_cast<double>(event_count)
+                               : 0.0;
     }
 };
 
