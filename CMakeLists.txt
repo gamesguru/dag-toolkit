@@ -28,4 +28,20 @@ add_executable(dagcmp
 target_include_directories(dagcmp PRIVATE src)
 target_link_libraries(dagcmp PRIVATE PkgConfig::SIMDJSON)
 
+# --- Tests ---
+enable_testing()
+
+add_executable(test_jsonl
+    test/test_jsonl.cpp
+    src/jsonl_reader.cpp
+)
+target_include_directories(test_jsonl PRIVATE src)
+target_link_libraries(test_jsonl PRIVATE PkgConfig::SIMDJSON)
+
+add_test(
+    NAME jsonl_reader
+    COMMAND test_jsonl ${CMAKE_SOURCE_DIR}/test/fixtures/storm.jsonl
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+)
+
 install(TARGETS dagcmp DESTINATION bin)

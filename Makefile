@@ -71,15 +71,12 @@ run/finance: ##H Audit financial network for systemic risk
 	} | tee output.log
 
 .PHONY: test/all
-test/all: ##H Run all certification pipelines
-	@$(call print_info,Running all pipelines)
-	@{ \
-		$(MAKE) --no-print-directory verify/epidemiology; \
-		$(MAKE) --no-print-directory verify/surveillance; \
-		$(MAKE) --no-print-directory run/adversarial; \
-		$(MAKE) --no-print-directory run/finance; \
-	} | tee output.log
-	@$(call print_success,All pipelines verified.)
+test/all: dagcmp ##H Build, test, and lint
+	@$(call print_info,Running tests)
+	@cmake --build build --target test_jsonl --parallel >/dev/null
+	@cd build && ctest --output-on-failure
+	@cppcheck --enable=warning,style --std=c++17 --quiet $$(git ls-files '*.cpp')
+	@$(call print_success,All tests passed.)
 
 # --- Dev Tools ---
 LAKE_PKG_DIR ?= $(HOME)/.cache/lake/packages
@@ -165,6 +162,13 @@ profile: dagcmp ##H BF depth profile (ROOM=slug [OUT=file.csv])
 storms: ##H Visualize fork storms (CSV=profile.csv [THRESHOLD=2.0] [OUT=plot.png])
 	@test -n "$(CSV)" || (echo "Usage: make storms CSV=<profile.csv>" && exit 1)
 	@python3 viz/dagviz.py $(CSV) $(if $(THRESHOLD),--threshold $(THRESHOLD),) $(if $(OUT),--output $(OUT),) $(if $(HEATMAP),--heatmap,)
+
+.PHONY: graph
+graph: ##H Render DAG graph (FILE=events.jsonl [DEPTH=lo:hi] [OUT=dag.png])
+	@test -n "$(FILE)" || (echo "Usage: make graph FILE=<events.jsonl> [DEPTH=lo:hi]" && exit 1)
+	@python3 viz/daggraph.py $(FILE) $(if $(DEPTH),--depth $(DEPTH),) -o /tmp/dag.dot
+	@dot -Tpng /tmp/dag.dot -o $(or $(OUT),/tmp/dag.png)
+	@$(call print_success,$(or $(OUT),/tmp/dag.png))
 
 synthesizer: src/synthesizer.cpp src/hpc_core.hpp ##H Build the C++ tree synthesizer
 	@$(call print_info,Building synthesizer)
