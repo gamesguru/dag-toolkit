@@ -179,7 +179,7 @@ def render_dot(
         # Highlight border
         hl_color = match_highlight(ev)
         if hl_color:
-            penwidth = "4.0"
+            penwidth = "5.0"
             border_attr = ', color="black"'
         else:
             border_attr = ""
@@ -245,9 +245,30 @@ def render_dot(
         if primary_depths:
             min_pd = min(primary_depths)
             max_pd = max(primary_depths)
-            # Find actual event_ids at the window edges for edge targets
             top_eids = by_depth.get(min_pd, [])
             bot_eids = by_depth.get(max_pd, [])
+            # Get timestamps of window edges for time delta
+            idx = all_idx or {}
+            top_ts = (
+                idx.get(top_eids[0], {}).get("origin_server_ts", 0) if top_eids else 0
+            )
+            bot_ts = (
+                idx.get(bot_eids[0], {}).get("origin_server_ts", 0) if bot_eids else 0
+            )
+
+        def _fmt_tdelta(ms_a, ms_b):
+            """Format time delta between two timestamps in ms."""
+            if not ms_a or not ms_b:
+                return ""
+            secs = abs(ms_a - ms_b) // 1000
+            days, secs = divmod(secs, 86400)
+            hours, secs = divmod(secs, 3600)
+            mins = secs // 60
+            if days:
+                return f"{days}d {hours}h"
+            if hours:
+                return f"{hours}h {mins}m"
+            return f"{mins}m"
 
         lines.append("")
         for ci in connect_info:
@@ -268,9 +289,8 @@ def render_dot(
                 lines.append(
                     f'  "{node_id}" [label="{label}", '
                     f'fillcolor="#ffeaa7", style="dashed,filled,rounded", '
-                    f'fontsize=9, fontname="monospace"];'
+                    f'penwidth=4.0, fontsize=9, fontname="monospace"];'
                 )
-                # Dashed arrow down to the top of the window
                 if top_eids:
                     top_nid = (
                         top_eids[0]
@@ -279,10 +299,14 @@ def render_dot(
                         .replace("+", "_")
                         .replace("/", "_")
                     )
+                    time_gap = _fmt_tdelta(before_ts, top_ts)
+                    gap_label = f"  {delta}d"
+                    if time_gap:
+                        gap_label += f", {time_gap}"
                     lines.append(
                         f'  "{node_id}" -> "{top_nid}" '
                         f'[style=dashed, color="#e67e22", '
-                        f'label="  {delta}d gap", fontsize=8, fontcolor="#e67e22"];'
+                        f'label="{gap_label}", fontsize=8, fontcolor="#e67e22"];'
                     )
 
             if after_d is not None and primary_depths:
@@ -296,7 +320,7 @@ def render_dot(
                 lines.append(
                     f'  "{node_id}" [label="{label}", '
                     f'fillcolor="#ffeaa7", style="dashed,filled,rounded", '
-                    f'fontsize=9, fontname="monospace"];'
+                    f'penwidth=4.0, fontsize=9, fontname="monospace"];'
                 )
                 # Dashed arrow from bottom of window down to this
                 if bot_eids:
@@ -307,10 +331,14 @@ def render_dot(
                         .replace("+", "_")
                         .replace("/", "_")
                     )
+                    time_gap = _fmt_tdelta(after_ts, bot_ts)
+                    gap_label = f"  {delta}d"
+                    if time_gap:
+                        gap_label += f", {time_gap}"
                     lines.append(
                         f'  "{bot_nid}" -> "{node_id}" '
                         f'[style=dashed, color="#e67e22", '
-                        f'label="  {delta}d gap", fontsize=8, fontcolor="#e67e22"];'
+                        f'label="{gap_label}", fontsize=8, fontcolor="#e67e22"];'
                     )
 
     lines.append("}")
