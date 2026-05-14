@@ -284,8 +284,10 @@ def render_dot(
                 if before_ts:
                     dt = datetime.fromtimestamp(before_ts / 1000, tz=timezone.utc)
                     ts_str = f"\\n{dt.strftime('%-d %b %H:%M')}"
+                time_gap = _fmt_tdelta(before_ts, top_ts)
+                tg_str = f", -{time_gap}" if time_gap else ""
                 node_id = f"connect_before_{name}"
-                label = f"{name}\\nd={before_d} (-{delta}d){ts_str}"
+                label = f"{name}\\ndepth=-{delta}{tg_str}{ts_str}"
                 lines.append(
                     f'  "{node_id}" [label="{label}", '
                     f'fillcolor="#ffeaa7", style="dashed,filled,rounded", '
@@ -299,10 +301,9 @@ def render_dot(
                         .replace("+", "_")
                         .replace("/", "_")
                     )
-                    time_gap = _fmt_tdelta(before_ts, top_ts)
-                    gap_label = f"  {delta}d"
+                    gap_label = f"  depth=-{delta}"
                     if time_gap:
-                        gap_label += f", {time_gap}"
+                        gap_label += f", -{time_gap}"
                     lines.append(
                         f'  "{node_id}" -> "{top_nid}" '
                         f'[style=dashed, color="#e67e22", '
@@ -315,14 +316,15 @@ def render_dot(
                 if after_ts:
                     dt = datetime.fromtimestamp(after_ts / 1000, tz=timezone.utc)
                     ts_str = f"\\n{dt.strftime('%-d %b %H:%M')}"
+                time_gap = _fmt_tdelta(after_ts, bot_ts)
+                tg_str = f", {time_gap}" if time_gap else ""
                 node_id = f"connect_after_{name}"
-                label = f"{name}\\nd={after_d} (+{delta}d){ts_str}"
+                label = f"{name}\\ndepth=+{delta}{tg_str}{ts_str}"
                 lines.append(
                     f'  "{node_id}" [label="{label}", '
                     f'fillcolor="#ffeaa7", style="dashed,filled,rounded", '
                     f'penwidth=4.0, fontsize=9, fontname="monospace"];'
                 )
-                # Dashed arrow from bottom of window down to this
                 if bot_eids:
                     bot_nid = (
                         bot_eids[0]
@@ -331,8 +333,7 @@ def render_dot(
                         .replace("+", "_")
                         .replace("/", "_")
                     )
-                    time_gap = _fmt_tdelta(after_ts, bot_ts)
-                    gap_label = f"  {delta}d"
+                    gap_label = f"  depth=+{delta}"
                     if time_gap:
                         gap_label += f", {time_gap}"
                     lines.append(
