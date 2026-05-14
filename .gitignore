@@ -43,3 +43,4 @@ build/
 compile_commands.json
 *.o
 *.d
+.cache/scan-results/

@@ -115,6 +115,16 @@ def event_color(ev: dict) -> str:
     return "#bdc3c7"
 
 
+def lighten_color(hex_color: str, factor: float = 0.55) -> str:
+    """Lighten a hex color towards white by the given factor (0=unchanged, 1=white)."""
+    hex_color = hex_color.lstrip("#")
+    r, g, b = int(hex_color[:2], 16), int(hex_color[2:4], 16), int(hex_color[4:6], 16)
+    r = int(r + (255 - r) * factor)
+    g = int(g + (255 - g) * factor)
+    b = int(b + (255 - b) * factor)
+    return f"#{r:02x}{g:02x}{b:02x}"
+
+
 # Highlight palette — high-contrast border colors
 HIGHLIGHT_COLORS = ["#e74c3c", "#9b59b6", "#1abc9c", "#e67e22", "#2980b9", "#27ae60"]
 
@@ -175,7 +185,7 @@ def render_dot(
         penwidth = "2.0" if n_prev > 2 else "1.0"
         is_followed = primary_ids is not None and eid not in primary_ids
         style = '"dashed,filled,rounded"' if is_followed else '"filled,rounded"'
-        fill = "#f5f5f5" if is_followed else color
+        fill = lighten_color(color) if is_followed else color
         # Highlight border
         hl_color = match_highlight(ev)
         if hl_color:
@@ -384,6 +394,45 @@ def follow_externals(
     return events + added
 
 
+def follow_forward(
+    events: list[dict],
+    all_events: list[dict],
+    max_hops: int,
+    max_nodes: int = 0,
+) -> list[dict]:
+    """Chase child events (events referencing current events as prev_events) forward."""
+    # Build children index: parent_id -> list of child events
+    children_idx: dict[str, list[dict]] = defaultdict(list)
+    for ev in all_events:
+        for prev in ev.get("prev_events", []):
+            children_idx[prev].append(ev)
+
+    included = {ev["event_id"] for ev in events}
+    frontier = set(included)  # seed: all current event IDs
+
+    added = []
+    for _hop in range(max_hops):
+        if not frontier:
+            break
+        if max_nodes > 0 and len(added) >= max_nodes:
+            break
+        next_frontier: set[str] = set()
+        for parent_id in frontier:
+            for child in children_idx.get(parent_id, []):
+                cid = child["event_id"]
+                if cid not in included:
+                    if max_nodes > 0 and len(added) >= max_nodes:
+                        break
+                    added.append(child)
+                    included.add(cid)
+                    next_frontier.add(cid)
+            if max_nodes > 0 and len(added) >= max_nodes:
+                break
+        frontier = next_frontier
+
+    return events + added
+
+
 def main():
     parser = argparse.ArgumentParser(description="Render Matrix DAG as graphviz DOT")
     parser.add_argument("jsonl", help="JSONL file with Matrix events")
@@ -398,6 +447,14 @@ def main():
         default=0,
         metavar="N",
         help="Follow external prev_events up to N hops beyond depth window",
+    )
+    parser.add_argument(
+        "--follow-forward",
+        "-F",
+        type=int,
+        default=0,
+        metavar="N",
+        help="Follow child events (forward in time) up to N hops beyond depth window",
     )
     parser.add_argument(
         "--max-nodes",
@@ -426,6 +483,11 @@ def main():
         help="Comma-separated sender/state_key substrings to highlight",
     )
     parser.add_argument(
+        "--trace-path",
+        metavar="A,B",
+        help="Trace DAG path between two event IDs (prefix match). Renders the connecting subgraph.",
+    )
+    parser.add_argument(
         "--connect",
         help="Comma-separated names: find nearest event outside window and show it",
     )
@@ -445,8 +507,109 @@ def main():
 
     events = all_events
 
+    # Trace path between two events
+    if args.trace_path:
+        parts = args.trace_path.split(",")
+        if len(parts) != 2:
+            print(
+                "--trace-path requires exactly two event ID prefixes separated by comma",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+        prefix_a, prefix_b = parts[0].strip(), parts[1].strip()
+        # Resolve prefixes
+        eid_a = next(
+            (
+                eid
+                for eid in all_idx
+                if eid.startswith(prefix_a) or eid.startswith("$" + prefix_a)
+            ),
+            None,
+        )
+        eid_b = next(
+            (
+                eid
+                for eid in all_idx
+                if eid.startswith(prefix_b) or eid.startswith("$" + prefix_b)
+            ),
+            None,
+        )
+        if not eid_a:
+            print(f"No event matching prefix '{prefix_a}'", file=sys.stderr)
+            sys.exit(1)
+        if not eid_b:
+            print(f"No event matching prefix '{prefix_b}'", file=sys.stderr)
+            sys.exit(1)
+        # Ensure A is the shallower (earlier) event
+        if all_idx[eid_a].get("depth", 0) > all_idx[eid_b].get("depth", 0):
+            eid_a, eid_b = eid_b, eid_a
+        ev_a, ev_b = all_idx[eid_a], all_idx[eid_b]
+        print(
+            f"Tracing {short_id(eid_a)} (d={ev_a.get('depth')}) -> {short_id(eid_b)} (d={ev_b.get('depth')})",
+            file=sys.stderr,
+        )
+        # BFS forward from A to B through children
+        children_idx: dict[str, list[str]] = defaultdict(list)
+        for ev in all_events:
+            for prev in ev.get("prev_events", []):
+                children_idx[prev].append(ev["event_id"])
+        # BFS from A, tracking parents for path reconstruction
+        from collections import deque
+
+        visited = {eid_a: None}
+        queue = deque([eid_a])
+        found = False
+        while queue:
+            cur = queue.popleft()
+            if cur == eid_b:
+                found = True
+                break
+            # Follow children (forward) and prev_events (backward from B)
+            for child_id in children_idx.get(cur, []):
+                if child_id not in visited:
+                    visited[child_id] = cur
+                    queue.append(child_id)
+        if found:
+            # Reconstruct path
+            path = []
+            cur = eid_b
+            while cur is not None:
+                path.append(cur)
+                cur = visited.get(cur)
+            path.reverse()
+            print(
+                f"Found path: {len(path)} events, depth {ev_a.get('depth')}..{ev_b.get('depth')}",
+                file=sys.stderr,
+            )
+            # Include path events + 1-hop neighbors for context
+            context_ids = set(path)
+            for eid in path:
+                ev = all_idx.get(eid, {})
+                for p in ev.get("prev_events", []):
+                    context_ids.add(p)
+                for c in children_idx.get(eid, []):
+                    context_ids.add(c)
+            events = [all_idx[eid] for eid in context_ids if eid in all_idx]
+            print(
+                f"Rendering {len(events)} events (path + 1-hop context)",
+                file=sys.stderr,
+            )
+        else:
+            print(
+                f"No path found from {short_id(eid_a)} to {short_id(eid_b)}",
+                file=sys.stderr,
+            )
+            # Fall back to just showing both events with follow
+            depth_a = ev_a.get("depth", 0)
+            depth_b = ev_b.get("depth", 0)
+            events = [e for e in all_events if depth_a <= e.get("depth", 0) <= depth_b]
+            print(
+                f"Falling back to depth range {depth_a}..{depth_b}: {len(events)} events",
+                file=sys.stderr,
+            )
+
     # Filter by depth range
-    if args.depth:
+    if args.depth and not args.trace_path:
         parts = args.depth.split(":")
         lo = int(parts[0]) if parts[0] else 0
         hi = int(parts[1]) if len(parts) > 1 and parts[1] else float("inf")
@@ -461,7 +624,18 @@ def main():
         extra = len(events) - before
         if extra:
             print(
-                f"Followed {extra} external events ({args.follow} hops)",
+                f"Followed {extra} external events back ({args.follow} hops)",
+                file=sys.stderr,
+            )
+
+    # Follow forward (children)
+    if args.follow_forward > 0 and args.depth:
+        before = len(events)
+        events = follow_forward(events, all_events, args.follow_forward, args.max_nodes)
+        extra = len(events) - before
+        if extra:
+            print(
+                f"Followed {extra} child events forward ({args.follow_forward} hops)",
                 file=sys.stderr,
             )
 
@@ -613,7 +787,9 @@ def main():
         if args.depth:
             parts.append(args.depth.replace(":", "-"))
         if args.follow:
-            parts.append(f"f{args.follow}")
+            parts.append(f"fb{args.follow}")
+        if args.follow_forward:
+            parts.append(f"ff{args.follow_forward}")
         if args.max_nodes:
             parts.append(f"n{args.max_nodes}")
         if args.highlight:

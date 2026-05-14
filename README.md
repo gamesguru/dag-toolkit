@@ -117,7 +117,8 @@ python3 viz/daggraph.py merged.jsonl --depth 48385:48400
 python3 viz/daggraph.py <JSONL> [options]
 
   --depth LO:HI       Depth window to render
-  --follow N           Chase external prev_events N hops beyond the window
+  --follow N           Chase external prev_events N hops back beyond the window
+  --follow-forward N   Chase child events N hops forward beyond the window
   --max-nodes N        Cap followed nodes (default: 200)
   --highlight k1,k2    Thick black border on matching sender/state_key events;
                         auto-connects names with no events in the window
@@ -128,21 +129,27 @@ python3 viz/daggraph.py <JSONL> [options]
                         If omitted, auto-named from flags → /tmp/dag_*.png
 ```
 
+Followed events (both back and forward) are rendered with dashed borders and a
+lightened shade of their natural color (pastel blue for joins, pastel orange for
+leaves, etc.) to distinguish them from primary window events.
+
 ### Example: Tracing a Missed Leave
 
 ```bash
 python3 viz/daggraph.py merged-c10y-fNiMx5ijtgGFibzPUfNs9hpQvnJYPTV-fD2KPk.jsonl \
   --depth 48385:48400 \
   --follow 2 \
+  --follow-forward 2 \
   --highlight jeroen,ggdev \
   --note "Tracing why Jeroen missed ggdev's leave." \
   --connect jeroen
 ```
 
 This renders ggdev's join/leave with thick black borders, chases 2 hops of
-external prev_events to show the merge context, and plots Jeroen's nearest
-events as dashed yellow nodes above and below the window with labeled gap
-arrows showing the depth and time delta.
+external prev_events backward and 2 hops of child events forward to show the
+full merge context, and plots Jeroen's nearest events as dashed yellow nodes
+above and below the window with labeled gap arrows showing the depth and time
+delta.
 
 ### Finding Fork Storms
 
