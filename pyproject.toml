@@ -1,0 +1,18 @@
+[project]
+name = "dag-toolkit"
+version = "0.1.0"
+description = "Matrix DAG diagnostic and visualization toolkit"
+requires-python = ">=3.10"
+dependencies = [
+    "matplotlib",
+]
+
+[project.optional-dependencies]
+complete = [
+    "argcomplete",
+]
+dev = [
+    "black",
+    "isort",
+    "flake8",
+]

@@ -106,13 +106,43 @@ with open('merged.jsonl') as f:
 # Output: d=48390 2026-04-15 07:04:02 join $_5wjEmfHri5NJY49yDP
 #         d=48391 2026-04-15 07:05:38 leave $jZcqs5f5sDAcCtnZHtW
 
-# Step 3: Render the DAG around that depth (±5-10 for context)
-make graph FILE=merged.jsonl DEPTH=48385:48400
-# → /tmp/dag.png
-
-# Step 4: Open it
-xdg-open /tmp/dag.png
+# Step 3: Render the DAG around that depth
+python3 viz/daggraph.py merged.jsonl --depth 48385:48400
+# → /tmp/dag_48385-48400.png (auto-named from flags)
 ```
+
+### daggraph.py Flags
+
+```
+python3 viz/daggraph.py <JSONL> [options]
+
+  --depth LO:HI       Depth window to render
+  --follow N           Chase external prev_events N hops beyond the window
+  --max-nodes N        Cap followed nodes (default: 200)
+  --highlight k1,k2    Thick black border on matching sender/state_key events;
+                        auto-connects names with no events in the window
+  --connect k1,k2      Find nearest event before/after the window for named
+                        users, render as dashed nodes with gap arrows
+  --note TEXT           Annotation added to auto-generated title
+  -o FILE              Output file (.png/.svg/.pdf auto-renders, .dot raw)
+                        If omitted, auto-named from flags → /tmp/dag_*.png
+```
+
+### Example: Tracing a Missed Leave
+
+```bash
+python3 viz/daggraph.py merged-c10y-fNiMx5ijtgGFibzPUfNs9hpQvnJYPTV-fD2KPk.jsonl \
+  --depth 48385:48400 \
+  --follow 2 \
+  --highlight jeroen,ggdev \
+  --note "Tracing why Jeroen missed ggdev's leave." \
+  --connect jeroen
+```
+
+This renders ggdev's join/leave with thick black borders, chases 2 hops of
+external prev_events to show the merge context, and plots Jeroen's nearest
+events as dashed yellow nodes above and below the window with labeled gap
+arrows showing the depth and time delta.
 
 ### Finding Fork Storms
 
