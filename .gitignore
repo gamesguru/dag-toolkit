@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.pyc
+*venv/
+
+# Lean build artifacts
+.lake/
+lake-manifest.json
+proofs/lean.log
+
+# Simulation logs
+output.log
+
+# Editor junk
+*.swp
+.DS_Store
+.tmp/
+*.zip
+*.gif
+*.png
+*.svg
+synthesizer
+oracle
+dendro
+leontovich
+leontovich_fast
+leontovich_sa
+depth5_sweep
+firefighter
+landscape_txz
+*.pdf
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.log
+*.out

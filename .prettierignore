@@ -1,0 +1,3 @@
+.mypy_cache/
+proofs/.lake/
+proofs/lake-manifest.json
