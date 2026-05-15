@@ -677,8 +677,12 @@ def main():
 
     # Build descriptive title
     # Extract room_id from events for title
-    room_id = next((ev.get("room_id", "") for ev in all_events if ev.get("room_id")), "")
-    room_label = room_id if room_id else os.path.splitext(os.path.basename(args.jsonl))[0]
+    room_id = next(
+        (ev.get("room_id", "") for ev in all_events if ev.get("room_id")), ""
+    )
+    room_label = (
+        room_id if room_id else os.path.splitext(os.path.basename(args.jsonl))[0]
+    )
 
     # Compute date and depth range from primary events
     primary = [
@@ -780,6 +784,7 @@ def main():
     )
 
     # Auto-generate output name if not specified
+    user_specified_output = args.output is not None
     if not args.output:
         base = os.path.splitext(os.path.basename(args.jsonl))[0]
         parts = [base]
@@ -802,13 +807,18 @@ def main():
         out = args.output
         ext = os.path.splitext(out)[1].lower()
         if ext in (".png", ".svg", ".pdf"):
-            # Write DOT to temp, render via dot
+            # Write DOT
             dot_path = out.rsplit(".", 1)[0] + ".dot"
             with open(dot_path, "w") as f:
                 f.write(dot)
             fmt = ext.lstrip(".")
             subprocess.run(["dot", f"-T{fmt}", dot_path, "-o", out], check=True)
             print(f"\u2713 {out}", file=sys.stderr)
+            # Auto-generate SVG alongside PNG when using default output
+            if ext == ".png" and not user_specified_output:
+                svg_path = out.rsplit(".", 1)[0] + ".svg"
+                subprocess.run(["dot", "-Tsvg", dot_path, "-o", svg_path], check=True)
+                print(f"\u2713 {svg_path}", file=sys.stderr)
         else:
             with open(out, "w") as f:
                 f.write(dot)
