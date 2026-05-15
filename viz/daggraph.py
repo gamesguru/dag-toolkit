@@ -676,13 +676,9 @@ def main():
                 print(f"Connect {name}: before d={bd}, after d={ad}", file=sys.stderr)
 
     # Build descriptive title
-    basename = os.path.splitext(os.path.basename(args.jsonl))[0]
-    # Strip "merged-" prefix for cleaner display
-    room_label = (
-        basename.replace("merged-", "", 1)
-        if basename.startswith("merged-")
-        else basename
-    )
+    # Extract room_id from events for title
+    room_id = next((ev.get("room_id", "") for ev in all_events if ev.get("room_id")), "")
+    room_label = room_id if room_id else os.path.splitext(os.path.basename(args.jsonl))[0]
 
     # Compute date and depth range from primary events
     primary = [
@@ -716,6 +712,8 @@ def main():
         title_lines.append(date_str)
     if depth_str:
         title_lines.append(depth_str)
+    if args.title != "DAG":
+        title_lines.append(args.title)
     if args.note:
         title_lines.append(args.note)
     auto_title = "\\n".join(title_lines)
@@ -783,7 +781,8 @@ def main():
 
     # Auto-generate output name if not specified
     if not args.output:
-        parts = ["dag"]
+        base = os.path.splitext(os.path.basename(args.jsonl))[0]
+        parts = [base]
         if args.depth:
             parts.append(args.depth.replace(":", "-"))
         if args.follow:
@@ -794,7 +793,10 @@ def main():
             parts.append(f"n{args.max_nodes}")
         if args.highlight:
             parts.append(f"hl_{args.highlight.replace(',', '_')}")
-        args.output = f"/tmp/{'_'.join(parts)}.png"
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        examples_dir = os.path.join(os.path.dirname(script_dir), "examples")
+        os.makedirs(examples_dir, exist_ok=True)
+        args.output = os.path.join(examples_dir, f"{'_'.join(parts)}.png")
 
     if args.output:
         out = args.output

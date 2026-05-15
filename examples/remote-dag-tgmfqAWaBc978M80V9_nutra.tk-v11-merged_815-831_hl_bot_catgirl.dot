@@ -1,0 +1,47 @@
+digraph "DAG – !tgmfqAWaBc978M80V9:nutra.tk\n6 May – 14 May 2026\ndepth 815..831\ncatgirl.cloud missing @bot:nutra.tk join (d=820 gap)" {
+  rankdir=TB;
+  label="DAG – !tgmfqAWaBc978M80V9:nutra.tk\n6 May – 14 May 2026\ndepth 815..831\ncatgirl.cloud missing @bot:nutra.tk join (d=820 gap)";
+  labelloc=t;
+  labeljust=c;
+  fontsize=14;
+  fontname="monospace bold";
+  node [shape=box, style="filled,rounded", fontsize=9, fontname="monospace"];
+  edge [color="#7f8c8d"];
+
+  "e_aJ_Hfa7SYGpqBX8To9xcKOHnfzx1IVHcVNy4hpSfQb8" [label="$aJ-Hfa7\nd=815 member join:@gamesguru:catgirl.cloud\n6 May 2026, 09:53", style="filled,rounded", fillcolor="#3498db", penwidth=5.0, color="black"];
+  "e_iTK6QJ_kt0UvN_3YC4arejjXZNed7ROea56Osa7g2vM" [label="$iTK6QJ-\nd=816 encrypted bot\n6 May 2026, 10:02", style="filled,rounded", fillcolor="#bdc3c7", penwidth=5.0, color="black"];
+  "e_AhS7CN0V8t2QP0_kBuLny7fYpzdlTxmTPbbsEcQEwU8" [label="$AhS7CN0\nd=817 member leave:@bot:nutra.tk\n6 May 2026, 10:07", style="filled,rounded", fillcolor="#e67e22", penwidth=5.0, color="black"];
+  "e_3YxjiSOHA_GYj_INGnMVsbcAqU_7WyNgwTM2gtX2drk" [label="$3YxjiSO\nd=818 member join:@bot:nutra.tk\n6 May 2026, 10:07", style="filled,rounded", fillcolor="#3498db", penwidth=5.0, color="black"];
+  "e_WkY_EpXvx0OwY4XEeXzOM_p9zlPKFyi3nKWOva0am8I" [label="$WkY_EpX\nd=819 member leave:@bot:nutra.tk\n6 May 2026, 10:07", style="filled,rounded", fillcolor="#e67e22", penwidth=5.0, color="black"];
+  "e_JWPoV6QqTNSyRLcZumCR4rg9Ih8wGn9ozPxy6HufsRQ" [label="$JWPoV6Q\nd=820 member join:@bot:nutra.tk\n6 May 2026, 10:13", style="filled,rounded", fillcolor="#3498db", penwidth=5.0, color="black"];
+  "e_PMlg5ulad_ynkHcX71aESIBF_WZc2bBYDPID236gx0c" [label="$PMlg5ul\nd=821 m.reaction shane\n9 May 2026, 03:48", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_JwAYCi5diZajgbTfskkKI_4CItLqgxyGiGitGoQiFKo" [label="$JwAYCi5\nd=822 member join:@gamesguru:grin.hu\n9 May 2026, 08:20", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_xHyXT2fG5rwHFaLn0QqcTrdbBmgobAyJewjn9IrUyf8" [label="$xHyXT2f\nd=823 encrypted shane\n10 May 2026, 07:56", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_hI_70LF40HN7Dz9Wg5VUGUruGDfkgtck6xQMmgYOpdc" [label="$hI_70LF\nd=824 encrypted galaxyshock\n11 May 2026, 04:12", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_U5jSfHMKX2AFPoyvao_Cu_6byaH_jbNx6WfBlsnNBgc" [label="$U5jSfHM\nd=825 encrypted shane\n11 May 2026, 04:13", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_1HPjlKnUxfD8vepmM9pQow1UYIsYEf9Pw04Z7WppUSo" [label="$1HPjlKn\nd=826 encrypted galaxyshock\n11 May 2026, 04:13", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_vOLUMxZbgWYUWMcQUx6lu7hSMBKQcNQeYTWt7E8f0So" [label="$vOLUMxZ\nd=827 m.reaction shane\n11 May 2026, 04:13", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_4ILlHvvkQlXS6XEAi21_r3fZc7fcELhKxbMZOMxIktg" [label="$4ILlHvv\nd=828 encrypted galaxyshock\n11 May 2026, 04:15", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_QkaPwvRF82CDsKtDe5XLcfKwu2Jt5Fh53cJut4dvyrU" [label="$QkaPwvR\nd=829 encrypted galaxyshock\n11 May 2026, 04:16", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_rt7RLLVrXMhDKXUd27qn3wZC9HOg_8D4QrRA4sAOwVg" [label="$rt7RLLV\nd=830 encrypted shane\n11 May 2026, 04:24", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_7rczi7W3uDzwB_5O7SWmu9QBM_YJ7yyVjCkgG5gtIh4" [label="$7rczi7W\nd=831 member join:@dwam:matrix.pyrosec.is\n14 May 2026, 13:52", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+
+  "e_PtESkbw7J0P13voGxY5d0pNpCeuqVoiPI6MHd3ZXaYo" [label="$PtESkbw\nd=814 member leave:@gamesguru:catgirl.cloud\n6 May 2026, 09:52", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e_PtESkbw7J0P13voGxY5d0pNpCeuqVoiPI6MHd3ZXaYo" -> "e_aJ_Hfa7SYGpqBX8To9xcKOHnfzx1IVHcVNy4hpSfQb8" [style=dashed];
+  "e_aJ_Hfa7SYGpqBX8To9xcKOHnfzx1IVHcVNy4hpSfQb8" -> "e_iTK6QJ_kt0UvN_3YC4arejjXZNed7ROea56Osa7g2vM";
+  "e_iTK6QJ_kt0UvN_3YC4arejjXZNed7ROea56Osa7g2vM" -> "e_AhS7CN0V8t2QP0_kBuLny7fYpzdlTxmTPbbsEcQEwU8";
+  "e_AhS7CN0V8t2QP0_kBuLny7fYpzdlTxmTPbbsEcQEwU8" -> "e_3YxjiSOHA_GYj_INGnMVsbcAqU_7WyNgwTM2gtX2drk";
+  "e_3YxjiSOHA_GYj_INGnMVsbcAqU_7WyNgwTM2gtX2drk" -> "e_WkY_EpXvx0OwY4XEeXzOM_p9zlPKFyi3nKWOva0am8I";
+  "e_WkY_EpXvx0OwY4XEeXzOM_p9zlPKFyi3nKWOva0am8I" -> "e_JWPoV6QqTNSyRLcZumCR4rg9Ih8wGn9ozPxy6HufsRQ";
+  "e_JWPoV6QqTNSyRLcZumCR4rg9Ih8wGn9ozPxy6HufsRQ" -> "e_PMlg5ulad_ynkHcX71aESIBF_WZc2bBYDPID236gx0c";
+  "e_PMlg5ulad_ynkHcX71aESIBF_WZc2bBYDPID236gx0c" -> "e_JwAYCi5diZajgbTfskkKI_4CItLqgxyGiGitGoQiFKo";
+  "e_JwAYCi5diZajgbTfskkKI_4CItLqgxyGiGitGoQiFKo" -> "e_xHyXT2fG5rwHFaLn0QqcTrdbBmgobAyJewjn9IrUyf8";
+  "e_xHyXT2fG5rwHFaLn0QqcTrdbBmgobAyJewjn9IrUyf8" -> "e_hI_70LF40HN7Dz9Wg5VUGUruGDfkgtck6xQMmgYOpdc";
+  "e_hI_70LF40HN7Dz9Wg5VUGUruGDfkgtck6xQMmgYOpdc" -> "e_U5jSfHMKX2AFPoyvao_Cu_6byaH_jbNx6WfBlsnNBgc";
+  "e_U5jSfHMKX2AFPoyvao_Cu_6byaH_jbNx6WfBlsnNBgc" -> "e_1HPjlKnUxfD8vepmM9pQow1UYIsYEf9Pw04Z7WppUSo";
+  "e_1HPjlKnUxfD8vepmM9pQow1UYIsYEf9Pw04Z7WppUSo" -> "e_vOLUMxZbgWYUWMcQUx6lu7hSMBKQcNQeYTWt7E8f0So";
+  "e_vOLUMxZbgWYUWMcQUx6lu7hSMBKQcNQeYTWt7E8f0So" -> "e_4ILlHvvkQlXS6XEAi21_r3fZc7fcELhKxbMZOMxIktg";
+  "e_4ILlHvvkQlXS6XEAi21_r3fZc7fcELhKxbMZOMxIktg" -> "e_QkaPwvRF82CDsKtDe5XLcfKwu2Jt5Fh53cJut4dvyrU";
+  "e_QkaPwvRF82CDsKtDe5XLcfKwu2Jt5Fh53cJut4dvyrU" -> "e_rt7RLLVrXMhDKXUd27qn3wZC9HOg_8D4QrRA4sAOwVg";
+  "e_rt7RLLVrXMhDKXUd27qn3wZC9HOg_8D4QrRA4sAOwVg" -> "e_7rczi7W3uDzwB_5O7SWmu9QBM_YJ7yyVjCkgG5gtIh4";
+}
