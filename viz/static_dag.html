@@ -703,29 +703,20 @@
       // Server Polling Logic
       let pollInterval = null;
 
-      document.getElementById("btn-connect").onclick = () => {
-        document.getElementById("server-modal").style.display = "flex";
-      };
-      document.getElementById("btn-cancel-sync").onclick = () => {
-        document.getElementById("server-modal").style.display = "none";
-      };
-
-      document.getElementById("btn-start-sync").onclick = () => {
-        const hs = document.getElementById("input-hs").value.replace(/\/$/, "");
-        const room = document.getElementById("input-room").value;
-        const token = document.getElementById("input-token").value;
-        if (!hs || !room || !token) return alert("Please fill all fields");
+      function startSync(hs, room, token) {
+        if (!hs || !room) return alert("Please fill Homeserver and Room ID");
 
         document.getElementById("server-modal").style.display = "none";
         if (pollInterval) clearInterval(pollInterval);
 
         const fetchDag = async () => {
           try {
+            const headers = {};
+            if (token) headers["Authorization"] = `Bearer ${token}`;
+
             const res = await fetch(
               `${hs}/_matrix/client/unstable/org.continuwuity.dag/${encodeURIComponent(room)}`,
-              {
-                headers: { Authorization: `Bearer ${token}` },
-              },
+              { headers },
             );
             if (!res.ok) throw new Error(await res.text());
             const data = await res.json();
@@ -741,6 +732,37 @@
 
         fetchDag();
         pollInterval = setInterval(fetchDag, 5000);
+      }
+
+      document.getElementById("btn-connect").onclick = () => {
+        document.getElementById("server-modal").style.display = "flex";
+      };
+      document.getElementById("btn-cancel-sync").onclick = () => {
+        document.getElementById("server-modal").style.display = "none";
+      };
+
+      document.getElementById("btn-start-sync").onclick = () => {
+        const hs = document.getElementById("input-hs").value.replace(/\/$/, "");
+        const room = document.getElementById("input-room").value;
+        const token = document.getElementById("input-token").value;
+        startSync(hs, room, token);
+      };
+
+      // Auto-connect via URL Parameters
+      window.onload = () => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has("hs") && params.has("room")) {
+          const hs = params.get("hs").replace(/\/$/, "");
+          const room = params.get("room");
+          const token = params.get("token") || "";
+
+          // Pre-fill the form in case they need to reconnect
+          document.getElementById("input-hs").value = hs;
+          document.getElementById("input-room").value = room;
+          document.getElementById("input-token").value = token;
+
+          startSync(hs, room, token);
+        }
       };
     </script>
   </body>
