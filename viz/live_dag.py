@@ -20,11 +20,7 @@ import asyncio
 import hashlib
 import json
 import os
-import sys
-import time
-from collections import defaultdict
 from datetime import datetime, timezone
-from pathlib import Path
 
 import aiohttp
 from aiohttp import web
@@ -275,7 +271,9 @@ HTML_PAGE = """<!DOCTYPE html>
 <script src="https://unpkg.com/dagre@0.8.5/dist/dagre.min.js"></script>
 <script src="https://unpkg.com/cytoscape-dagre@2.5.0/cytoscape-dagre.js"></script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  @import url(
+    'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap'
+  );
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -817,7 +815,7 @@ def main():
     app.on_cleanup.append(cleanup_background_tasks)
 
     web.run_app(app, host="0.0.0.0", port=args.port, print=None)
-    print(f"[live_dag] Server stopped")
+    print("[live_dag] Server stopped")
 
 
 if __name__ == "__main__":

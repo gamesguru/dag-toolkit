@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Static DAG Viewer — Matrix Room</title>
+    <script src="https://unpkg.com/cytoscape@3.30.4/dist/cytoscape.min.js"></script>
+    <script src="https://unpkg.com/dagre@0.8.5/dist/dagre.min.js"></script>
+    <script src="https://unpkg.com/cytoscape-dagre@2.5.0/cytoscape-dagre.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          sans-serif;
+        background: #0f0f13;
+        color: #e0e0e0;
+        overflow: hidden;
+        height: 100vh;
+      }
+
+      #header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 52px;
+        background: linear-gradient(135deg, #1a1a24 0%, #12121a 100%);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        z-index: 100;
+        backdrop-filter: blur(20px);
+      }
+
+      #header h1 {
+        font-size: 15px;
+        font-weight: 600;
+        background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -0.3px;
+      }
+
+      #controls {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      #controls button,
+      #controls label.btn {
+        font-family: "Inter", sans-serif;
+        font-size: 11px;
+        font-weight: 500;
+        padding: 5px 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.04);
+        color: #aaa;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-block;
+      }
+      #controls button:hover,
+      #controls label.btn:hover {
+        background: rgba(108, 92, 231, 0.2);
+        border-color: #6c5ce7;
+        color: #fff;
+      }
+
+      #tail-input {
+        width: 60px;
+        padding: 4px 8px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        color: #e0e0e0;
+        text-align: center;
+      }
+
+      #cy {
+        position: fixed;
+        top: 52px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #0f0f13;
+      }
+
+      #legend {
+        position: fixed;
+        bottom: 16px;
+        left: 16px;
+        background: rgba(20, 20, 30, 0.92);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 10px;
+        padding: 12px 16px;
+        z-index: 100;
+        max-width: 280px;
+        font-size: 11px;
+        display: none;
+      }
+
+      #legend h3 {
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #666;
+        margin-bottom: 8px;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 4px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        color: #aaa;
+      }
+
+      .legend-swatch {
+        width: 12px;
+        height: 12px;
+        border-radius: 3px;
+        flex-shrink: 0;
+      }
+
+      #tooltip {
+        position: fixed;
+        display: none;
+        background: rgba(20, 20, 30, 0.95);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(108, 92, 231, 0.3);
+        border-radius: 10px;
+        padding: 12px 16px;
+        z-index: 200;
+        max-width: 420px;
+        font-size: 12px;
+        line-height: 1.6;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        pointer-events: none;
+      }
+
+      #tooltip .tt-id {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10px;
+        color: #6c5ce7;
+        word-break: break-all;
+      }
+
+      #tooltip .tt-label {
+        font-weight: 600;
+        color: #fff;
+        margin: 4px 0;
+      }
+
+      #tooltip .tt-meta {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10px;
+        color: #888;
+      }
+
+      #stats {
+        position: fixed;
+        bottom: 16px;
+        right: 16px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        color: #444;
+        z-index: 100;
+      }
+
+      #overlay {
+        position: fixed;
+        top: 52px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(15, 15, 19, 0.8);
+        z-index: 50;
+        transition: opacity 0.3s;
+      }
+
+      #overlay h2 {
+        font-weight: 500;
+        margin-bottom: 16px;
+        color: #aaa;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="header">
+      <h1>⬡ DAG Viewer (Standalone)</h1>
+      <div id="controls">
+        <label class="btn">
+          Load JSONL
+          <input
+            type="file"
+            id="file-input"
+            accept=".jsonl,.json"
+            style="display: none"
+          />
+        </label>
+        <label style="font-size: 11px; color: #666">Tail:</label>
+        <input id="tail-input" type="number" value="100" min="10" max="5000" />
+        <button id="btn-fit">Fit</button>
+        <button id="btn-layout">Re-layout</button>
+      </div>
+    </div>
+
+    <div id="overlay">
+      <h2>Select or drop a Matrix JSONL file to visualize</h2>
+    </div>
+
+    <div id="cy"></div>
+    <div id="legend"></div>
+    <div id="tooltip"></div>
+    <div id="stats"></div>
+
+    <script>
+      // Graph Data Logic
+      const SERVER_COLORS = {};
+      const PALETTE = [
+        "#6c5ce7",
+        "#00b894",
+        "#e17055",
+        "#0984e3",
+        "#fdcb6e",
+        "#e84393",
+        "#00cec9",
+        "#fab1a0",
+        "#74b9ff",
+        "#a29bfe",
+        "#55efc4",
+        "#ffeaa7",
+        "#dfe6e9",
+        "#fd79a8",
+        "#636e72",
+        "#81ecec",
+        "#ff7675",
+        "#b2bec3",
+      ];
+
+      function getServerColor(server) {
+        if (!SERVER_COLORS[server]) {
+          const idx = Object.keys(SERVER_COLORS).length % PALETTE.length;
+          SERVER_COLORS[server] = PALETTE[idx];
+        }
+        return SERVER_COLORS[server];
+      }
+
+      function shortId(eid) {
+        return eid && eid.length > 8 ? eid.substring(0, 8) : eid;
+      }
+
+      function getEventColor(ev) {
+        const type = ev.type || "";
+        if (type === "m.room.create") return "#2ecc71";
+        if (type === "m.room.member") {
+          const ms = (ev.content && ev.content.membership) || "";
+          if (ms === "join") return "#3498db";
+          if (ms === "leave") return "#e67e22";
+          if (ms === "ban") return "#e74c3c";
+          return "#9b59b6";
+        }
+        if (type === "m.room.message") return "#ecf0f1";
+        if (type === "m.room.power_levels") return "#f39c12";
+        if (type === "m.room.name") return "#1abc9c";
+        return "#bdc3c7";
+      }
+
+      function buildGraphData(events, tail = 100) {
+        if (!events || events.length === 0) return { nodes: [], edges: [] };
+
+        // Sort by depth
+        const sorted = [...events].sort(
+          (a, b) => (a.depth || 0) - (b.depth || 0),
+        );
+        const windowEvents =
+          sorted.length > tail ? sorted.slice(-tail) : sorted;
+
+        const byId = {};
+        windowEvents.forEach((e) => {
+          if (e.event_id) byId[e.event_id] = e;
+        });
+        const idSet = new Set(Object.keys(byId));
+
+        const nodes = [];
+        const edges = [];
+
+        windowEvents.forEach((ev) => {
+          const eid = ev.event_id || "?";
+          const sender = ev.sender || "";
+          const server = sender.includes(":")
+            ? sender.split(":")[1]
+            : "unknown";
+          const localpart = sender
+            ? sender.split(":")[0].replace("@", "")
+            : "?";
+          const etype = (ev.type || "").replace("m.room.", "");
+          const depth = ev.depth || 0;
+          const ts = ev.origin_server_ts || 0;
+          const content = ev.content || {};
+
+          let label = "";
+          if (ev.type === "m.room.member") {
+            const membership = content.membership || "?";
+            const sk = ev.state_key || "";
+            const skLocal = sk ? sk.split(":")[0].replace("@", "") : "";
+            label = `${membership}:${skLocal}`;
+          } else if (ev.type === "m.room.message") {
+            const body = (content.body || "").substring(0, 50);
+            label = body ? `${localpart}: ${body}` : etype;
+          } else if (ev.type === "m.room.name") {
+            label = `name: ${content.name || "?"}`;
+          } else {
+            label = `${etype} (${localpart})`;
+          }
+
+          let tsStr = "";
+          if (ts) {
+            const dt = new Date(ts);
+            tsStr = dt.toISOString().split("T")[1].split(".")[0];
+          }
+
+          const prevEvents = ev.prev_events || [];
+
+          nodes.push({
+            data: {
+              id: eid,
+              label: label,
+              short_id: shortId(eid),
+              depth: depth,
+              sender: sender,
+              localpart: localpart,
+              server: server,
+              type: ev.type || "",
+              short_type: etype,
+              ts: tsStr,
+              ts_ms: ts,
+              color: getEventColor(ev),
+              border_color: getServerColor(server),
+              n_prev: prevEvents.length,
+              full_id: eid,
+            },
+          });
+
+          prevEvents.forEach((prev) => {
+            if (idSet.has(prev)) {
+              edges.push({ data: { source: prev, target: eid } });
+            } else {
+              const ghostId = `ghost_${prev}`;
+              nodes.push({
+                data: {
+                  id: ghostId,
+                  label: shortId(prev),
+                  short_id: shortId(prev),
+                  depth: depth - 1,
+                  sender: "",
+                  server: "external",
+                  type: "external",
+                  short_type: "ext",
+                  ts: "",
+                  color: "#555",
+                  border_color: "#333",
+                  n_prev: 0,
+                  ghost: true,
+                  full_id: prev,
+                },
+              });
+              edges.push({ data: { source: ghostId, target: eid } });
+            }
+          });
+        });
+
+        // Deduplicate nodes (ghosts)
+        const seenIds = new Set();
+        const dedupedNodes = [];
+        nodes.forEach((n) => {
+          if (!seenIds.has(n.data.id)) {
+            seenIds.add(n.data.id);
+            dedupedNodes.push(n);
+          }
+        });
+
+        // Legend
+        const serversSeen = Array.from(
+          new Set(
+            dedupedNodes
+              .filter(
+                (n) =>
+                  n.data.server !== "external" && n.data.server !== "unknown",
+              )
+              .map((n) => n.data.server),
+          ),
+        ).sort();
+
+        const legend = {};
+        serversSeen.forEach((s) => (legend[s] = getServerColor(s)));
+
+        const depths = dedupedNodes
+          .filter((n) => !n.data.ghost)
+          .map((n) => n.data.depth);
+        const depthRange = depths.length
+          ? `${Math.min(...depths)}..${Math.max(...depths)}`
+          : "?";
+        const eventCount = dedupedNodes.filter((n) => !n.data.ghost).length;
+
+        return {
+          nodes: dedupedNodes,
+          edges,
+          legend,
+          depthRange,
+          eventCount,
+        };
+      }
+
+      // Cytoscape Setup
+      const cy = cytoscape({
+        container: document.getElementById("cy"),
+        style: [
+          {
+            selector: "node",
+            style: {
+              label: "data(short_id)",
+              "text-valign": "center",
+              "text-halign": "center",
+              "font-size": "8px",
+              "font-family": '"JetBrains Mono", monospace',
+              color: "#ddd",
+              "text-outline-color": "data(color)",
+              "text-outline-width": 1.5,
+              "background-color": "data(color)",
+              "border-color": "data(border_color)",
+              "border-width": 3,
+              width: 60,
+              height: 28,
+              shape: "round-rectangle",
+              "text-wrap": "ellipsis",
+              "text-max-width": "54px",
+            },
+          },
+          {
+            selector: "node[?ghost]",
+            style: {
+              "background-color": "#1a1a24",
+              "border-style": "dashed",
+              "border-color": "#333",
+              "border-width": 1.5,
+              opacity: 0.5,
+              width: 40,
+              height: 20,
+              "font-size": "7px",
+            },
+          },
+          {
+            selector: "node[n_prev > 1]",
+            style: {
+              "border-width": 4,
+              width: 70,
+            },
+          },
+          {
+            selector: "edge",
+            style: {
+              width: 1.5,
+              "line-color": "rgba(120,120,150,0.3)",
+              "target-arrow-color": "rgba(120,120,150,0.4)",
+              "target-arrow-shape": "triangle",
+              "curve-style": "bezier",
+              "arrow-scale": 0.6,
+            },
+          },
+          {
+            selector: ":selected",
+            style: {
+              "border-color": "#fff",
+              "border-width": 4,
+            },
+          },
+        ],
+        layout: { name: "preset" },
+        minZoom: 0.1,
+        maxZoom: 4,
+        wheelSensitivity: 0.3,
+      });
+
+      // Tooltip logic
+      const tooltip = document.getElementById("tooltip");
+      cy.on("mouseover", "node", (e) => {
+        const d = e.target.data();
+        if (d.ghost) return;
+        tooltip.innerHTML = `
+    <div class="tt-id">${d.full_id}</div>
+    <div class="tt-label">${escapeHtml(d.label)}</div>
+    <div class="tt-meta">
+      depth: ${d.depth} &middot; ${d.ts}<br>
+      sender: ${d.sender}<br>
+      type: ${d.type}<br>
+      prev_events: ${d.n_prev}
+    </div>
+  `;
+        tooltip.style.display = "block";
+        const pos = e.renderedPosition || e.target.renderedPosition();
+        tooltip.style.left = pos.x + 20 + "px";
+        tooltip.style.top = pos.y + 60 + "px";
+      });
+      cy.on("mouseout", "node", () => {
+        tooltip.style.display = "none";
+      });
+
+      function escapeHtml(s) {
+        const d = document.createElement("div");
+        d.textContent = s;
+        return d.innerHTML;
+      }
+
+      // App State
+      let ALL_EVENTS = [];
+
+      function updateGraph() {
+        if (ALL_EVENTS.length === 0) return;
+
+        document.getElementById("overlay").style.display = "none";
+
+        const tail =
+          parseInt(document.getElementById("tail-input").value) || 100;
+        const data = buildGraphData(ALL_EVENTS, tail);
+        const elements = [...data.nodes, ...data.edges];
+
+        cy.batch(() => {
+          cy.elements().remove();
+          cy.add(elements);
+        });
+
+        cy.layout({
+          name: "dagre",
+          rankDir: "TB",
+          nodeSep: 15,
+          rankSep: 40,
+          edgeSep: 8,
+          animate: false,
+          fit: true,
+          padding: 30,
+        }).run();
+
+        const legendEl = document.getElementById("legend");
+        if (data.legend && Object.keys(data.legend).length > 0) {
+          let html = "<h3>Servers</h3>";
+          for (const [server, color] of Object.entries(data.legend)) {
+            html += `<div class="legend-item"><div class="legend-swatch" style="background:${color}"></div>${server}</div>`;
+          }
+          legendEl.innerHTML = html;
+          legendEl.style.display = "block";
+        } else {
+          legendEl.style.display = "none";
+        }
+
+        document.getElementById("stats").textContent =
+          `${data.eventCount} events \xB7 depth ${data.depthRange}`;
+      }
+
+      // File loading
+      function handleFile(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const text = e.target.result;
+          const lines = text.split("\n");
+          const events = [];
+          for (const line of lines) {
+            if (!line.trim()) continue;
+            try {
+              events.push(JSON.parse(line));
+            } catch (err) {
+              // ignore bad lines
+            }
+          }
+          ALL_EVENTS = events;
+          updateGraph();
+        };
+        reader.readAsText(file);
+      }
+
+      document.getElementById("file-input").addEventListener("change", (e) => {
+        if (e.target.files.length > 0) handleFile(e.target.files[0]);
+      });
+
+      document.addEventListener("dragover", (e) => e.preventDefault());
+      document.addEventListener("drop", (e) => {
+        e.preventDefault();
+        if (e.dataTransfer.files.length > 0) {
+          handleFile(e.dataTransfer.files[0]);
+        }
+      });
+
+      // Controls
+      document.getElementById("btn-fit").onclick = () => cy.fit(null, 30);
+      document.getElementById("btn-layout").onclick = () => {
+        cy.layout({
+          name: "dagre",
+          rankDir: "TB",
+          nodeSep: 15,
+          rankSep: 40,
+          animate: true,
+          animationDuration: 300,
+          fit: true,
+          padding: 30,
+        }).run();
+      };
+      document.getElementById("tail-input").onchange = updateGraph;
+    </script>
+  </body>
+</html>
