@@ -572,8 +572,17 @@
   `;
         tooltip.style.display = "block";
         const pos = e.renderedPosition || e.target.renderedPosition();
-        tooltip.style.left = pos.x + 20 + "px";
-        tooltip.style.top = pos.y + 60 + "px";
+        const ttRect = tooltip.getBoundingClientRect();
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        let left = pos.x + 20;
+        let top = pos.y + 60;
+        // Flip left if overflowing right edge
+        if (left + ttRect.width > vw) left = pos.x - ttRect.width - 10;
+        // Flip up if overflowing bottom edge
+        if (top + ttRect.height > vh) top = pos.y - ttRect.height - 10;
+        tooltip.style.left = left + "px";
+        tooltip.style.top = top + "px";
       });
       cy.on("mouseout", "node", () => {
         tooltip.style.display = "none";
