@@ -260,9 +260,8 @@
   </head>
   <body>
     <div id="header">
-      <h1>⬡ DAG Viewer (Standalone)</h1>
+      <h1>⬡ Shared DAG Dashboard</h1>
       <div id="controls">
-        <button id="btn-connect">Live Connect</button>
         <label class="btn">
           Load JSONL
           <input
@@ -287,26 +286,6 @@
     <div id="legend"></div>
     <div id="tooltip"></div>
     <div id="stats"></div>
-
-    <div id="server-modal">
-      <div id="server-form">
-        <h3>Connect Homeserver</h3>
-        <input id="input-hs" type="text" placeholder="https://catgirl.cloud" />
-        <input id="input-room" type="text" placeholder="!room_id:server.com" />
-        <input
-          id="input-token"
-          type="password"
-          placeholder="Admin Access Token"
-        />
-        <button id="btn-start-sync">Start Live Sync</button>
-        <button
-          id="btn-cancel-sync"
-          style="background: transparent; border: 1px solid #444"
-        >
-          Cancel
-        </button>
-      </div>
-    </div>
 
     <script>
       // Graph Data Logic
@@ -700,23 +679,18 @@
       };
       document.getElementById("tail-input").onchange = updateGraph;
 
-      // Server Polling Logic
-      let pollInterval = null;
+      // Auto-connect Dashboard Logic
+      const TARGET_HOMESERVER = "https://catgirl.cloud";
+      const TARGET_ROOM =
+        "!c10y-fNiMx5ijtgGFibzPUfNs9hpQvnJYPTV-fD2KPk:matrix.org";
 
-      function startSync(hs, room, token) {
-        if (!hs || !room) return alert("Please fill Homeserver and Room ID");
-
-        document.getElementById("server-modal").style.display = "none";
-        if (pollInterval) clearInterval(pollInterval);
+      function startSharedSync() {
+        document.getElementById("overlay").style.display = "none";
 
         const fetchDag = async () => {
           try {
-            const headers = {};
-            if (token) headers["Authorization"] = `Bearer ${token}`;
-
             const res = await fetch(
-              `${hs}/_matrix/client/unstable/org.continuwuity.dag/${encodeURIComponent(room)}`,
-              { headers },
+              `${TARGET_HOMESERVER}/_matrix/client/unstable/org.continuwuity.dag/${encodeURIComponent(TARGET_ROOM)}`,
             );
             if (!res.ok) throw new Error(await res.text());
             const data = await res.json();
@@ -731,39 +705,10 @@
         };
 
         fetchDag();
-        pollInterval = setInterval(fetchDag, 5000);
+        setInterval(fetchDag, 5000);
       }
 
-      document.getElementById("btn-connect").onclick = () => {
-        document.getElementById("server-modal").style.display = "flex";
-      };
-      document.getElementById("btn-cancel-sync").onclick = () => {
-        document.getElementById("server-modal").style.display = "none";
-      };
-
-      document.getElementById("btn-start-sync").onclick = () => {
-        const hs = document.getElementById("input-hs").value.replace(/\/$/, "");
-        const room = document.getElementById("input-room").value;
-        const token = document.getElementById("input-token").value;
-        startSync(hs, room, token);
-      };
-
-      // Auto-connect via URL Parameters
-      window.onload = () => {
-        const params = new URLSearchParams(window.location.search);
-        if (params.has("hs") && params.has("room")) {
-          const hs = params.get("hs").replace(/\/$/, "");
-          const room = params.get("room");
-          const token = params.get("token") || "";
-
-          // Pre-fill the form in case they need to reconnect
-          document.getElementById("input-hs").value = hs;
-          document.getElementById("input-room").value = room;
-          document.getElementById("input-token").value = token;
-
-          startSync(hs, room, token);
-        }
-      };
+      window.onload = startSharedSync;
     </script>
   </body>
 </html>
