@@ -262,6 +262,20 @@
     <div id="header">
       <h1>⬡ Shared DAG Dashboard</h1>
       <div id="controls">
+        <select
+          id="room-select"
+          style="
+            display: none;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            color: #e0e0e0;
+            font-family: &quot;Inter&quot;, sans-serif;
+            font-size: 11px;
+            padding: 5px 12px;
+            outline: none;
+          "
+        ></select>
         <label class="btn">
           Load JSONL
           <input
@@ -275,11 +289,39 @@
         <input id="tail-input" type="number" value="100" min="10" max="5000" />
         <button id="btn-fit">Fit</button>
         <button id="btn-layout">Re-layout</button>
+        <button id="btn-logout" style="display: none">Logout</button>
       </div>
     </div>
 
     <div id="overlay">
       <h2>Select or drop a Matrix JSONL file to visualize</h2>
+    </div>
+
+    <div id="server-modal">
+      <div id="server-form">
+        <h3>Connect to Matrix Server</h3>
+        <input
+          type="text"
+          id="hs-input"
+          placeholder="Homeserver URL (https://matrix.org)"
+          value="https://matrix.wombatx.me"
+        />
+        <input
+          type="password"
+          id="token-input"
+          placeholder="Access Token (syt_...)"
+        />
+        <button id="btn-login">Connect</button>
+        <div
+          id="login-error"
+          style="
+            color: #ff7675;
+            font-size: 11px;
+            display: none;
+            margin-top: 4px;
+          "
+        ></div>
+      </div>
     </div>
 
     <div id="cy"></div>
@@ -288,6 +330,11 @@
     <div id="stats"></div>
 
     <script>
+      window.onerror = function (msg, url, lineNo, columnNo, error) {
+        document.getElementById("overlay").innerHTML +=
+          `<div style="color:red; background: black; padding: 10px; z-index: 9999; margin-top: 20px;">ERROR: ${msg} <br> Line: ${lineNo}:${columnNo}</div>`;
+        return false;
+      };
       // Graph Data Logic
       const SERVER_COLORS = {};
       const PALETTE = [
@@ -393,7 +440,8 @@
             tsStr = dt.toISOString().split("T")[1].split(".")[0];
           }
 
-          const prevEvents = ev.prev_events || [];
+          const prevEvents =
+            ev.prev_events || (ev.unsigned && ev.unsigned.prev_events) || [];
 
           nodes.push({
             data: {
@@ -688,21 +736,210 @@
       };
       document.getElementById("tail-input").onchange = updateGraph;
 
-      // Auto-connect Dashboard Logic
-      const TARGET_HOMESERVER = "https://matrix.wombatx.me";
-      const TARGET_ROOM = "!c10y-fNiMx5ijtgGFibzPUfNs9hpQvnJYPTV-fD2KPk";
+      // Authentication and Sync Logic
+      let liveInterval = null;
+      let currentRoomId = null;
+
+      function getAuth() {
+        let hs = null;
+        let token = null;
+        try {
+          hs = localStorage.getItem("hs_url") || getCookie("hs_url");
+        } catch (e) {}
+        try {
+          token =
+            localStorage.getItem("access_token") || getCookie("access_token");
+        } catch (e) {}
+        return { hs, token };
+      }
+
+      function setAuth(hs, token) {
+        try {
+          localStorage.setItem("hs_url", hs);
+          localStorage.setItem("access_token", token);
+          document.cookie = `hs_url=${hs}; path=/; max-age=2592000`;
+          document.cookie = `access_token=${token}; path=/; max-age=2592000`;
+        } catch (e) {
+          console.warn("Storage not available", e);
+        }
+      }
+
+      function clearAuth() {
+        try {
+          localStorage.removeItem("hs_url");
+          localStorage.removeItem("access_token");
+          document.cookie = "hs_url=; path=/; max-age=0";
+          document.cookie = "access_token=; path=/; max-age=0";
+        } catch (e) {}
+      }
+
+      function getCookie(name) {
+        try {
+          const v = document.cookie.match("(^|;) ?" + name + "=([^;]*)(;|$)");
+          return v ? v[2] : null;
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function showLogin() {
+        document.getElementById("server-modal").style.display = "flex";
+        document.getElementById("room-select").style.display = "none";
+        document.getElementById("btn-logout").style.display = "none";
+        if (liveInterval) clearInterval(liveInterval);
+      }
+
+      async function handleLogin() {
+        const hs = document.getElementById("hs-input").value.replace(/\/$/, "");
+        const token = document.getElementById("token-input").value.trim();
+        const errEl = document.getElementById("login-error");
+
+        if (!hs || !token) {
+          errEl.textContent = "Please fill in all fields";
+          errEl.style.display = "block";
+          return;
+        }
+
+        const btn = document.getElementById("btn-login");
+        btn.textContent = "Connecting...";
+        btn.disabled = true;
+
+        try {
+          // Verify token by fetching joined rooms
+          const res = await fetch(`${hs}/_matrix/client/v3/joined_rooms`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            throw new Error(errData.error || "Invalid token or homeserver");
+          }
+
+          setAuth(hs, token);
+          document.getElementById("server-modal").style.display = "none";
+          errEl.style.display = "none";
+          await loadRooms();
+        } catch (e) {
+          errEl.textContent = e.message;
+          errEl.style.display = "block";
+        } finally {
+          btn.textContent = "Connect";
+          btn.disabled = false;
+        }
+      }
+
+      document.getElementById("btn-login").onclick = handleLogin;
+      document.getElementById("btn-logout").onclick = () => {
+        clearAuth();
+        showLogin();
+      };
+
+      async function loadRooms() {
+        const { hs, token } = getAuth();
+        if (!hs || !token) return;
+
+        try {
+          // Fetch synced rooms with names and aliases
+          const filter = encodeURIComponent(
+            JSON.stringify({
+              room: {
+                timeline: { limit: 1 },
+                state: { types: ["m.room.name", "m.room.canonical_alias"] },
+              },
+            }),
+          );
+          const res = await fetch(
+            `${hs}/_matrix/client/v3/sync?timeout=0&filter=${filter}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            },
+          );
+          if (res.status === 401) {
+            clearAuth();
+            showLogin();
+            return;
+          }
+          const data = await res.json();
+          const joined = data.rooms?.join || {};
+
+          const select = document.getElementById("room-select");
+          select.innerHTML = '<option value="">-- Select a Room --</option>';
+
+          const rooms = [];
+          for (const [roomId, roomData] of Object.entries(joined)) {
+            let name = roomId;
+            const stateEvents = roomData.state?.events || [];
+            const nameEv = stateEvents.find((e) => e.type === "m.room.name");
+            const aliasEv = stateEvents.find(
+              (e) => e.type === "m.room.canonical_alias",
+            );
+
+            if (nameEv && nameEv.content && nameEv.content.name) {
+              name = nameEv.content.name;
+            } else if (aliasEv && aliasEv.content && aliasEv.content.alias) {
+              name = aliasEv.content.alias;
+            }
+
+            rooms.push({ id: roomId, name: name });
+          }
+
+          // Sort rooms alphabetically
+          rooms.sort((a, b) => a.name.localeCompare(b.name));
+
+          rooms.forEach((room) => {
+            const opt = document.createElement("option");
+            opt.value = room.id;
+            opt.textContent = room.name;
+            select.appendChild(opt);
+          });
+
+          select.style.display = "inline-block";
+          document.getElementById("btn-logout").style.display = "inline-block";
+
+          select.onchange = (e) => {
+            currentRoomId = e.target.value;
+            if (currentRoomId) {
+              startSharedSync();
+            } else {
+              if (liveInterval) clearInterval(liveInterval);
+              document.getElementById("overlay").style.display = "flex";
+              cy.elements().remove();
+            }
+          };
+        } catch (err) {
+          console.error("Failed to load rooms", err);
+          const errEl = document.getElementById("login-error");
+          if (errEl) {
+            errEl.textContent = "Failed to load rooms: " + err.message;
+            errEl.style.display = "block";
+            showLogin();
+          }
+        }
+      }
 
       function startSharedSync() {
         document.getElementById("overlay").style.display = "none";
+        if (liveInterval) clearInterval(liveInterval);
 
         const fetchDag = async () => {
+          if (!currentRoomId) return;
+          const { hs, token } = getAuth();
+          if (!hs || !token) return;
+
           try {
+            const tail =
+              parseInt(document.getElementById("tail-input").value) || 100;
             const res = await fetch(
-              `${TARGET_HOMESERVER}/_matrix/client/unstable/org.continuwuity.dag/${encodeURIComponent(TARGET_ROOM)}`,
+              `${hs}/_matrix/client/v3/rooms/${encodeURIComponent(currentRoomId)}/messages?dir=b&limit=${tail}`,
+              { headers: { Authorization: `Bearer ${token}` } },
             );
             if (!res.ok) throw new Error(await res.text());
             const data = await res.json();
-            ALL_EVENTS = data;
+
+            ALL_EVENTS = data.chunk || [];
+            if (data.state) {
+              ALL_EVENTS = ALL_EVENTS.concat(data.state);
+            }
+
             updateGraph();
             document.getElementById("stats").textContent += " (Live)";
           } catch (err) {
@@ -713,10 +950,17 @@
         };
 
         fetchDag();
-        setInterval(fetchDag, 5000);
+        liveInterval = setInterval(fetchDag, 5000);
       }
 
-      window.onload = startSharedSync;
+      window.onload = () => {
+        const { hs, token } = getAuth();
+        if (!hs || !token) {
+          showLogin();
+        } else {
+          loadRooms();
+        }
+      };
     </script>
   </body>
 </html>
