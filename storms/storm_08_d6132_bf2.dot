@@ -1,0 +1,56 @@
+digraph "DAG – !iMZEhwCvbfeAYUxAjZ:t2l.io\n28 Apr 2022\ndepth 6127..6141\nStorm #8 @ d6132..6136 (peak BF=2.0, span=5, 3 hot depths, 4 events)" {
+  rankdir=TB;
+  label="DAG – !iMZEhwCvbfeAYUxAjZ:t2l.io\n28 Apr 2022\ndepth 6127..6141\nStorm #8 @ d6132..6136 (peak BF=2.0, span=5, 3 hot depths, 4 events)";
+  labelloc=t;
+  labeljust=c;
+  fontsize=14;
+  fontname="monospace bold";
+  node [shape=box, style="filled,rounded", fontsize=9, fontname="monospace"];
+  edge [color="#7f8c8d"];
+
+  "e_sYTH_RdNoLVnInCa_9SbFoRl2unPsJo3AKr55Jy_0uI" [label="$sYTH_Rd\nd=6141 member join:@d-io:matrix.org\n28 Apr 2022, 20:49", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_J1C0HjVQFEkU2HhcE00d_v5cVAS17oaKWTfBjPXZl1E" [label="$J1C0HjV\nd=6140 member leave:@rakoo:rako.space\n28 Apr 2022, 17:28", style="filled,rounded", fillcolor="#e67e22", penwidth=1.0];
+  "e_oF8l1gPBGLl_6_W5xoOXbPAMRRUWKrsVTL3EBqh_Vxw" [label="$oF8l1gP\nd=6139 member join:@brandeddio:matrix.org\n28 Apr 2022, 17:13", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_yt_IKSsFvCIYIFf3_v3gjC2xTit6ZIhOXQ5Upi1QRKM" [label="$yt-IKSs\nd=6138 member join:@vt52:tty.is\n28 Apr 2022, 16:31", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_XhzRgHeYP_TtOFPyBCaz_BJlJCMKApRwhO1EUKkK2zA" [label="$XhzRgHe\nd=6137 member join:@jsalter:matrix.org\n28 Apr 2022, 16:00", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_bRsiea8Zmb9u3yuvko4UebvITkFYlj77IOl4cHAHg78" [label="$bRsiea8\nd=6136 server_acl abuse\n28 Apr 2022, 14:52", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_E3Hw4tDww3JWDOFE1bTTFQWnn9sjhprL2vYVoDWv5S4" [label="$E3Hw4tD\nd=6135 server_acl abuse\n28 Apr 2022, 14:52", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_gl743U2g7rjwW_0o6pHnKx9NhdJK6AB28y6oMxLrRJM" [label="$gl743U2\nd=6135 server_acl abuse\n28 Apr 2022, 14:52", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_dcYxlgXnAj9YgVAULDFwLQzLG21n7LI7xYUFk0uKgDA" [label="$dcYxlgX\nd=6134 server_acl abuse\n28 Apr 2022, 14:52", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_cN0OV2jdnyO_ICC9Yu5WSeQtOSUyzXKn5dPqqaBXotE" [label="$cN0OV2j\nd=6133 server_acl abuse\n28 Apr 2022, 14:52", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_uNxBJ4u_uPrzY5Wj99lVWVa5rqwsAz3SCXPfnmDcAMM" [label="$uNxBJ4u\nd=6132 server_acl abuse\n28 Apr 2022, 14:46", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_5q35mqpTS4_HW9QFDTq6ORbSRqKg1PBoYTenpuD8iog" [label="$5q35mqp\nd=6132 server_acl abuse\n28 Apr 2022, 14:46", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_DQ7eTIO48TNcAamRy0HJAiQ4DXyyn0hDJzb4Oy4v9S0" [label="$DQ7eTIO\nd=6131 server_acl abuse\n28 Apr 2022, 14:39", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_Hfd_hTO6ZfPg7Z_7n_NVgdWo7oduUnJkLrpDgkt_xwI" [label="$Hfd-hTO\nd=6131 server_acl abuse\n28 Apr 2022, 14:39", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_lYrvZZSNVQx4O21_xHqS_wfRwQ0Li6E5QZSxsY_nEzM" [label="$lYrvZZS\nd=6130 member join:@jabaduba:matrix.org\n28 Apr 2022, 14:18", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_KZ7qLEO8oSxvXFCUgi_HtlP9lgk9PvDuJO4zTIkhpdo" [label="$KZ7qLEO\nd=6129 member join:@brandondasliva:matrix.org\n28 Apr 2022, 13:44", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_2Mtml6QBFQ_KGl_cTYiLshoWpuDcvaqQYpST9MHqBrI" [label="$2Mtml6Q\nd=6128 member join:@hugo.ehm:matrix.org\n28 Apr 2022, 13:24", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_qDA49yUSb2BjtIrHJGE62KApgSCyOsnyLlFDnsU45Tg" [label="$qDA49yU\nd=6127 member leave:@whiskerz1312:matrix.org\n28 Apr 2022, 12:51", style="filled,rounded", fillcolor="#e67e22", penwidth=1.0];
+
+  "e_J1C0HjVQFEkU2HhcE00d_v5cVAS17oaKWTfBjPXZl1E" -> "e_sYTH_RdNoLVnInCa_9SbFoRl2unPsJo3AKr55Jy_0uI";
+  "e_oF8l1gPBGLl_6_W5xoOXbPAMRRUWKrsVTL3EBqh_Vxw" -> "e_J1C0HjVQFEkU2HhcE00d_v5cVAS17oaKWTfBjPXZl1E";
+  "e_yt_IKSsFvCIYIFf3_v3gjC2xTit6ZIhOXQ5Upi1QRKM" -> "e_oF8l1gPBGLl_6_W5xoOXbPAMRRUWKrsVTL3EBqh_Vxw";
+  "e_XhzRgHeYP_TtOFPyBCaz_BJlJCMKApRwhO1EUKkK2zA" -> "e_yt_IKSsFvCIYIFf3_v3gjC2xTit6ZIhOXQ5Upi1QRKM";
+  "e_bRsiea8Zmb9u3yuvko4UebvITkFYlj77IOl4cHAHg78" -> "e_XhzRgHeYP_TtOFPyBCaz_BJlJCMKApRwhO1EUKkK2zA";
+  "e_E3Hw4tDww3JWDOFE1bTTFQWnn9sjhprL2vYVoDWv5S4" -> "e_bRsiea8Zmb9u3yuvko4UebvITkFYlj77IOl4cHAHg78";
+  "e_gl743U2g7rjwW_0o6pHnKx9NhdJK6AB28y6oMxLrRJM" -> "e_bRsiea8Zmb9u3yuvko4UebvITkFYlj77IOl4cHAHg78";
+  "e_dcYxlgXnAj9YgVAULDFwLQzLG21n7LI7xYUFk0uKgDA" -> "e_E3Hw4tDww3JWDOFE1bTTFQWnn9sjhprL2vYVoDWv5S4";
+  "e_dcYxlgXnAj9YgVAULDFwLQzLG21n7LI7xYUFk0uKgDA" -> "e_gl743U2g7rjwW_0o6pHnKx9NhdJK6AB28y6oMxLrRJM";
+  "e_cN0OV2jdnyO_ICC9Yu5WSeQtOSUyzXKn5dPqqaBXotE" -> "e_dcYxlgXnAj9YgVAULDFwLQzLG21n7LI7xYUFk0uKgDA";
+  "e_uNxBJ4u_uPrzY5Wj99lVWVa5rqwsAz3SCXPfnmDcAMM" -> "e_cN0OV2jdnyO_ICC9Yu5WSeQtOSUyzXKn5dPqqaBXotE";
+  "e_5q35mqpTS4_HW9QFDTq6ORbSRqKg1PBoYTenpuD8iog" -> "e_cN0OV2jdnyO_ICC9Yu5WSeQtOSUyzXKn5dPqqaBXotE";
+  "e_DQ7eTIO48TNcAamRy0HJAiQ4DXyyn0hDJzb4Oy4v9S0" -> "e_uNxBJ4u_uPrzY5Wj99lVWVa5rqwsAz3SCXPfnmDcAMM";
+  "e_Hfd_hTO6ZfPg7Z_7n_NVgdWo7oduUnJkLrpDgkt_xwI" -> "e_uNxBJ4u_uPrzY5Wj99lVWVa5rqwsAz3SCXPfnmDcAMM";
+  "e_DQ7eTIO48TNcAamRy0HJAiQ4DXyyn0hDJzb4Oy4v9S0" -> "e_5q35mqpTS4_HW9QFDTq6ORbSRqKg1PBoYTenpuD8iog";
+  "e_Hfd_hTO6ZfPg7Z_7n_NVgdWo7oduUnJkLrpDgkt_xwI" -> "e_5q35mqpTS4_HW9QFDTq6ORbSRqKg1PBoYTenpuD8iog";
+  "e_lYrvZZSNVQx4O21_xHqS_wfRwQ0Li6E5QZSxsY_nEzM" -> "e_DQ7eTIO48TNcAamRy0HJAiQ4DXyyn0hDJzb4Oy4v9S0";
+  "e_lYrvZZSNVQx4O21_xHqS_wfRwQ0Li6E5QZSxsY_nEzM" -> "e_Hfd_hTO6ZfPg7Z_7n_NVgdWo7oduUnJkLrpDgkt_xwI";
+  "e_KZ7qLEO8oSxvXFCUgi_HtlP9lgk9PvDuJO4zTIkhpdo" -> "e_lYrvZZSNVQx4O21_xHqS_wfRwQ0Li6E5QZSxsY_nEzM";
+  "e_2Mtml6QBFQ_KGl_cTYiLshoWpuDcvaqQYpST9MHqBrI" -> "e_KZ7qLEO8oSxvXFCUgi_HtlP9lgk9PvDuJO4zTIkhpdo";
+  "e_qDA49yUSb2BjtIrHJGE62KApgSCyOsnyLlFDnsU45Tg" -> "e_2Mtml6QBFQ_KGl_cTYiLshoWpuDcvaqQYpST9MHqBrI";
+  "e_f425d4cJ0xBx7N70UEBJtO261rfTmnU6tNv8ONx_JB0" [label="$f425d4c\nd=6126 member leave:@cardinaldoorman:envs.net\n28 Apr 2022, 09:58", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e_f425d4cJ0xBx7N70UEBJtO261rfTmnU6tNv8ONx_JB0" -> "e_qDA49yUSb2BjtIrHJGE62KApgSCyOsnyLlFDnsU45Tg" [style=dashed];
+  { rank=same; "e_DQ7eTIO48TNcAamRy0HJAiQ4DXyyn0hDJzb4Oy4v9S0"; "e_Hfd_hTO6ZfPg7Z_7n_NVgdWo7oduUnJkLrpDgkt_xwI" }
+  { rank=same; "e_uNxBJ4u_uPrzY5Wj99lVWVa5rqwsAz3SCXPfnmDcAMM"; "e_5q35mqpTS4_HW9QFDTq6ORbSRqKg1PBoYTenpuD8iog" }
+  { rank=same; "e_E3Hw4tDww3JWDOFE1bTTFQWnn9sjhprL2vYVoDWv5S4"; "e_gl743U2g7rjwW_0o6pHnKx9NhdJK6AB28y6oMxLrRJM" }
+}

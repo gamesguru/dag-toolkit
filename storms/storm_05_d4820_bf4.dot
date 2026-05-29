@@ -1,0 +1,83 @@
+digraph "DAG – !iMZEhwCvbfeAYUxAjZ:t2l.io\n27 Jan 2022\ndepth 4810..4827\nStorm #5 @ d4815..4822 (peak BF=4.0, span=8, 5 hot depths, 6 events)" {
+  rankdir=TB;
+  label="DAG – !iMZEhwCvbfeAYUxAjZ:t2l.io\n27 Jan 2022\ndepth 4810..4827\nStorm #5 @ d4815..4822 (peak BF=4.0, span=8, 5 hot depths, 6 events)";
+  labelloc=t;
+  labeljust=c;
+  fontsize=14;
+  fontname="monospace bold";
+  node [shape=box, style="filled,rounded", fontsize=9, fontname="monospace"];
+  edge [color="#7f8c8d"];
+
+  "e_adkwkwxJcdQ7fOOg8NZJeH_glBfCvYIM0BVmC4nLzn0" [label="$adkwkwx\nd=4827 server_acl abuse\n27 Jan 2022, 19:57", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_S_VZbA71cPebYl_sctOB74kTRjIqaLFKoFTp25CJOPI" [label="$S_VZbA7\nd=4826 member leave:@stevepdp_m:matrix.org\n27 Jan 2022, 19:47", style="filled,rounded", fillcolor="#e67e22", penwidth=1.0];
+  "e_VG2w05kske5EvcNRVRPI4XhC_1Mo5AaOgkTIGS81ng0" [label="$VG2w05k\nd=4825 server_acl abuse\n27 Jan 2022, 18:58", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_jRe_g1Vv6wsRnLwMyLDp1GqsEvnCU_pXByM_CK3tDF0" [label="$jRe_g1V\nd=4824 server_acl abuse\n27 Jan 2022, 17:52", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_KJPZgbX4uMQKJxergaXI2WZSzjsppjgojCRpPiLE6ag" [label="$KJPZgbX\nd=4823 server_acl abuse\n27 Jan 2022, 17:51", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_m6pUqM1DpF19bru5gySGsvVOKO6lo0yKI23xjpNKVyE" [label="$m6pUqM1\nd=4822 server_acl abuse\n27 Jan 2022, 17:51", style="filled,rounded", fillcolor="#bdc3c7", penwidth=2.0];
+  "e_frnluSMP_hUUbXny1jntXH5HT_nUyvv6SdyJo57pw38" [label="$frnluSM\nd=4821 server_acl abuse\n27 Jan 2022, 17:48", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_xLY4Dw2L90YS7wtdHhw2YKD9mp_i_n0L9w6O7dzDMTo" [label="$xLY4Dw2\nd=4821 server_acl abuse\n27 Jan 2022, 17:48", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_yX5O6P97r3r1G6c7C8LW_hAPVMiI6HPHvYCxTrpiL1A" [label="$yX5O6P9\nd=4821 server_acl abuse\n27 Jan 2022, 17:48", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_B57RjxxA39RU6j8ULBQoBQnCiGmW5jhgLe1LbJCTFhg" [label="$B57Rjxx\nd=4820 server_acl abuse\n27 Jan 2022, 17:48", style="filled,rounded", fillcolor="#bdc3c7", penwidth=2.0];
+  "e_O5so3HIZD6dscIGxjGA3_4Wuq7flBvXuSpYLZiDr_xQ" [label="$O5so3HI\nd=4819 server_acl abuse\n27 Jan 2022, 17:47", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_EIcI2q73fMAs8xHNFPnTeCGQpH_fx171Cx6_KgL2_Xs" [label="$EIcI2q7\nd=4819 server_acl abuse\n27 Jan 2022, 17:47", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_oiyU2GAFKJRzHBByxWCc4KOIXKWHdtz4aFijBFbEEck" [label="$oiyU2GA\nd=4819 server_acl abuse\n27 Jan 2022, 17:47", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_vbxzN_tb4QekFuCwE6P7XXJgyyh_zg3q48tGUhnKSWM" [label="$vbxzN_t\nd=4819 server_acl abuse\n27 Jan 2022, 17:47", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_RmOB6cHSTuQ5VcnHbScM6T3PzkU18QRy07Mf9JMAe4k" [label="$RmOB6cH\nd=4818 server_acl abuse\n27 Jan 2022, 17:47", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_ZMXUg7ZYIYNon1t8Fq4tVbuPxEx8FXksfLKeqyEz6TI" [label="$ZMXUg7Z\nd=4817 server_acl abuse\n27 Jan 2022, 17:47", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_2Sd5bgOIyrOZz9Goc7aZGW1LME4jXPHz0sEaCKSKQMI" [label="$2Sd5bgO\nd=4817 server_acl abuse\n27 Jan 2022, 17:47", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_00_9Gbu_T_eoR5eg9NvmcEEXUsI5qF9LPHh3bI5VbC8" [label="$00-9Gbu\nd=4816 server_acl abuse\n27 Jan 2022, 17:46", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_PCsM7_yneIPN9L4gghvbw_fsCQaAxS39_0EO__55m4I" [label="$PCsM7_y\nd=4816 server_acl abuse\n27 Jan 2022, 17:46", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_OD78itoER3Pl5MOV7njEVYCw191SPUZr0Sh_gbcWUO8" [label="$OD78ito\nd=4815 server_acl abuse\n27 Jan 2022, 17:46", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_BNTPsPwpbN_RA8PgB_SPmDQ7R_9PEHNMzu3kwjIETI8" [label="$BNTPsPw\nd=4814 server_acl abuse\n27 Jan 2022, 17:45", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_Y2XMjN77JICSMXuJypMmeNj_Sx5zMPhhHpY2Evzvqbs" [label="$Y2XMjN7\nd=4814 server_acl abuse\n27 Jan 2022, 17:45", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_Gl1iyq78ZuU_sccx7PN6LOHd5of0abVrrLXgk3laifw" [label="$Gl1iyq7\nd=4813 server_acl abuse\n27 Jan 2022, 17:45", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_kByZc45Sc1BCkQwbpl5RcElPL2Q_jirogdg_7zz4nU4" [label="$kByZc45\nd=4812 server_acl abuse\n27 Jan 2022, 17:44", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_CAxL1da6PTjzVjrevVWQVsSBig_yIhZ7zcpqfuG_Oqc" [label="$CAxL1da\nd=4811 server_acl abuse\n27 Jan 2022, 17:43", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_TU4VfdkSazMn1kUf9A6oofdAkNWeL_93ix7J7ksN4QE" [label="$TU4Vfdk\nd=4810 server_acl abuse\n27 Jan 2022, 17:41", style="filled,rounded", fillcolor="#bdc3c7", penwidth=2.0];
+
+  "e_S_VZbA71cPebYl_sctOB74kTRjIqaLFKoFTp25CJOPI" -> "e_adkwkwxJcdQ7fOOg8NZJeH_glBfCvYIM0BVmC4nLzn0";
+  "e_VG2w05kske5EvcNRVRPI4XhC_1Mo5AaOgkTIGS81ng0" -> "e_S_VZbA71cPebYl_sctOB74kTRjIqaLFKoFTp25CJOPI";
+  "e_jRe_g1Vv6wsRnLwMyLDp1GqsEvnCU_pXByM_CK3tDF0" -> "e_VG2w05kske5EvcNRVRPI4XhC_1Mo5AaOgkTIGS81ng0";
+  "e_KJPZgbX4uMQKJxergaXI2WZSzjsppjgojCRpPiLE6ag" -> "e_jRe_g1Vv6wsRnLwMyLDp1GqsEvnCU_pXByM_CK3tDF0";
+  "e_m6pUqM1DpF19bru5gySGsvVOKO6lo0yKI23xjpNKVyE" -> "e_KJPZgbX4uMQKJxergaXI2WZSzjsppjgojCRpPiLE6ag";
+  "e_yX5O6P97r3r1G6c7C8LW_hAPVMiI6HPHvYCxTrpiL1A" -> "e_m6pUqM1DpF19bru5gySGsvVOKO6lo0yKI23xjpNKVyE";
+  "e_xLY4Dw2L90YS7wtdHhw2YKD9mp_i_n0L9w6O7dzDMTo" -> "e_m6pUqM1DpF19bru5gySGsvVOKO6lo0yKI23xjpNKVyE";
+  "e_frnluSMP_hUUbXny1jntXH5HT_nUyvv6SdyJo57pw38" -> "e_m6pUqM1DpF19bru5gySGsvVOKO6lo0yKI23xjpNKVyE";
+  "e_B57RjxxA39RU6j8ULBQoBQnCiGmW5jhgLe1LbJCTFhg" -> "e_frnluSMP_hUUbXny1jntXH5HT_nUyvv6SdyJo57pw38";
+  "e_B57RjxxA39RU6j8ULBQoBQnCiGmW5jhgLe1LbJCTFhg" -> "e_xLY4Dw2L90YS7wtdHhw2YKD9mp_i_n0L9w6O7dzDMTo";
+  "e_B57RjxxA39RU6j8ULBQoBQnCiGmW5jhgLe1LbJCTFhg" -> "e_yX5O6P97r3r1G6c7C8LW_hAPVMiI6HPHvYCxTrpiL1A";
+  "e_EIcI2q73fMAs8xHNFPnTeCGQpH_fx171Cx6_KgL2_Xs" -> "e_B57RjxxA39RU6j8ULBQoBQnCiGmW5jhgLe1LbJCTFhg";
+  "e_oiyU2GAFKJRzHBByxWCc4KOIXKWHdtz4aFijBFbEEck" -> "e_B57RjxxA39RU6j8ULBQoBQnCiGmW5jhgLe1LbJCTFhg";
+  "e_vbxzN_tb4QekFuCwE6P7XXJgyyh_zg3q48tGUhnKSWM" -> "e_B57RjxxA39RU6j8ULBQoBQnCiGmW5jhgLe1LbJCTFhg";
+  "e_O5so3HIZD6dscIGxjGA3_4Wuq7flBvXuSpYLZiDr_xQ" -> "e_B57RjxxA39RU6j8ULBQoBQnCiGmW5jhgLe1LbJCTFhg";
+  "e_RmOB6cHSTuQ5VcnHbScM6T3PzkU18QRy07Mf9JMAe4k" -> "e_O5so3HIZD6dscIGxjGA3_4Wuq7flBvXuSpYLZiDr_xQ";
+  "e_RmOB6cHSTuQ5VcnHbScM6T3PzkU18QRy07Mf9JMAe4k" -> "e_EIcI2q73fMAs8xHNFPnTeCGQpH_fx171Cx6_KgL2_Xs";
+  "e_RmOB6cHSTuQ5VcnHbScM6T3PzkU18QRy07Mf9JMAe4k" -> "e_oiyU2GAFKJRzHBByxWCc4KOIXKWHdtz4aFijBFbEEck";
+  "e_RmOB6cHSTuQ5VcnHbScM6T3PzkU18QRy07Mf9JMAe4k" -> "e_vbxzN_tb4QekFuCwE6P7XXJgyyh_zg3q48tGUhnKSWM";
+  "e_ZMXUg7ZYIYNon1t8Fq4tVbuPxEx8FXksfLKeqyEz6TI" -> "e_RmOB6cHSTuQ5VcnHbScM6T3PzkU18QRy07Mf9JMAe4k";
+  "e_2Sd5bgOIyrOZz9Goc7aZGW1LME4jXPHz0sEaCKSKQMI" -> "e_RmOB6cHSTuQ5VcnHbScM6T3PzkU18QRy07Mf9JMAe4k";
+  "e_00_9Gbu_T_eoR5eg9NvmcEEXUsI5qF9LPHh3bI5VbC8" -> "e_ZMXUg7ZYIYNon1t8Fq4tVbuPxEx8FXksfLKeqyEz6TI";
+  "e_PCsM7_yneIPN9L4gghvbw_fsCQaAxS39_0EO__55m4I" -> "e_ZMXUg7ZYIYNon1t8Fq4tVbuPxEx8FXksfLKeqyEz6TI";
+  "e_00_9Gbu_T_eoR5eg9NvmcEEXUsI5qF9LPHh3bI5VbC8" -> "e_2Sd5bgOIyrOZz9Goc7aZGW1LME4jXPHz0sEaCKSKQMI";
+  "e_PCsM7_yneIPN9L4gghvbw_fsCQaAxS39_0EO__55m4I" -> "e_2Sd5bgOIyrOZz9Goc7aZGW1LME4jXPHz0sEaCKSKQMI";
+  "e_OD78itoER3Pl5MOV7njEVYCw191SPUZr0Sh_gbcWUO8" -> "e_00_9Gbu_T_eoR5eg9NvmcEEXUsI5qF9LPHh3bI5VbC8";
+  "e_OD78itoER3Pl5MOV7njEVYCw191SPUZr0Sh_gbcWUO8" -> "e_PCsM7_yneIPN9L4gghvbw_fsCQaAxS39_0EO__55m4I";
+  "e_BNTPsPwpbN_RA8PgB_SPmDQ7R_9PEHNMzu3kwjIETI8" -> "e_OD78itoER3Pl5MOV7njEVYCw191SPUZr0Sh_gbcWUO8";
+  "e_Y2XMjN77JICSMXuJypMmeNj_Sx5zMPhhHpY2Evzvqbs" -> "e_OD78itoER3Pl5MOV7njEVYCw191SPUZr0Sh_gbcWUO8";
+  "e_Gl1iyq78ZuU_sccx7PN6LOHd5of0abVrrLXgk3laifw" -> "e_BNTPsPwpbN_RA8PgB_SPmDQ7R_9PEHNMzu3kwjIETI8";
+  "e_Gl1iyq78ZuU_sccx7PN6LOHd5of0abVrrLXgk3laifw" -> "e_Y2XMjN77JICSMXuJypMmeNj_Sx5zMPhhHpY2Evzvqbs";
+  "e_kByZc45Sc1BCkQwbpl5RcElPL2Q_jirogdg_7zz4nU4" -> "e_Gl1iyq78ZuU_sccx7PN6LOHd5of0abVrrLXgk3laifw";
+  "e_CAxL1da6PTjzVjrevVWQVsSBig_yIhZ7zcpqfuG_Oqc" -> "e_kByZc45Sc1BCkQwbpl5RcElPL2Q_jirogdg_7zz4nU4";
+  "e_TU4VfdkSazMn1kUf9A6oofdAkNWeL_93ix7J7ksN4QE" -> "e_CAxL1da6PTjzVjrevVWQVsSBig_yIhZ7zcpqfuG_Oqc";
+  "e_Uhisng4gpHyVZWg6UfkRpMrXATQNUJfBfDIevis23Ao" [label="$Uhisng4\nd=4809 server_acl abuse\n27 Jan 2022, 17:41", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e_Uhisng4gpHyVZWg6UfkRpMrXATQNUJfBfDIevis23Ao" -> "e_TU4VfdkSazMn1kUf9A6oofdAkNWeL_93ix7J7ksN4QE" [style=dashed];
+  "e_Tj2yoMuztliYrE4Y_NhowAYCS0uqSSUckh49EtXjalg" [label="$Tj2yoMu\nd=4809 server_acl abuse\n27 Jan 2022, 17:41", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e_Tj2yoMuztliYrE4Y_NhowAYCS0uqSSUckh49EtXjalg" -> "e_TU4VfdkSazMn1kUf9A6oofdAkNWeL_93ix7J7ksN4QE" [style=dashed];
+  "e_2T7CclazDskoul_9zW0wtBzp0Qt1sgvsWkQFDCFkCOA" [label="$2T7Ccla\nd=4809 server_acl abuse\n27 Jan 2022, 17:41", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e_2T7CclazDskoul_9zW0wtBzp0Qt1sgvsWkQFDCFkCOA" -> "e_TU4VfdkSazMn1kUf9A6oofdAkNWeL_93ix7J7ksN4QE" [style=dashed];
+  { rank=same; "e_BNTPsPwpbN_RA8PgB_SPmDQ7R_9PEHNMzu3kwjIETI8"; "e_Y2XMjN77JICSMXuJypMmeNj_Sx5zMPhhHpY2Evzvqbs" }
+  { rank=same; "e_00_9Gbu_T_eoR5eg9NvmcEEXUsI5qF9LPHh3bI5VbC8"; "e_PCsM7_yneIPN9L4gghvbw_fsCQaAxS39_0EO__55m4I" }
+  { rank=same; "e_ZMXUg7ZYIYNon1t8Fq4tVbuPxEx8FXksfLKeqyEz6TI"; "e_2Sd5bgOIyrOZz9Goc7aZGW1LME4jXPHz0sEaCKSKQMI" }
+  { rank=same; "e_O5so3HIZD6dscIGxjGA3_4Wuq7flBvXuSpYLZiDr_xQ"; "e_EIcI2q73fMAs8xHNFPnTeCGQpH_fx171Cx6_KgL2_Xs"; "e_oiyU2GAFKJRzHBByxWCc4KOIXKWHdtz4aFijBFbEEck"; "e_vbxzN_tb4QekFuCwE6P7XXJgyyh_zg3q48tGUhnKSWM" }
+  { rank=same; "e_frnluSMP_hUUbXny1jntXH5HT_nUyvv6SdyJo57pw38"; "e_xLY4Dw2L90YS7wtdHhw2YKD9mp_i_n0L9w6O7dzDMTo"; "e_yX5O6P97r3r1G6c7C8LW_hAPVMiI6HPHvYCxTrpiL1A" }
+}

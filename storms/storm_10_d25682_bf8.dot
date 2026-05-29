@@ -1,0 +1,55 @@
+digraph "DAG – !iMZEhwCvbfeAYUxAjZ:t2l.io\n20 Jan – 21 Jan 2025\ndepth 25677..25689\nStorm #10 @ d25682..25684 (peak BF=8.0, span=3, 2 hot depths, 2 events)" {
+  rankdir=TB;
+  label="DAG – !iMZEhwCvbfeAYUxAjZ:t2l.io\n20 Jan – 21 Jan 2025\ndepth 25677..25689\nStorm #10 @ d25682..25684 (peak BF=8.0, span=3, 2 hot depths, 2 events)";
+  labelloc=t;
+  labeljust=c;
+  fontsize=14;
+  fontname="monospace bold";
+  node [shape=box, style="filled,rounded", fontsize=9, fontname="monospace"];
+  edge [color="#7f8c8d"];
+
+  "e_4nq37zOdctwUZf_RbyAtS3ydEy64sMJpY57cO_mUuK0" [label="$4nq37zO\nd=25689 member join:@winterweasel:matrix.org\n21 Jan 2025, 08:21", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_V_d9bTMOpKAcCad68CNYhAeJvo4Tjrk1GIaX14Ucfko" [label="$V_d9bTM\nd=25688 member join:@kurohana:kurohana.social\n21 Jan 2025, 07:06", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_p7R8tuCp3uvv9Syo1gcNh82brnr35b_i6lNBtiihhzU" [label="$p7R8tuC\nd=25687 member leave:@sjckns:matrix.org\n21 Jan 2025, 06:32", style="filled,rounded", fillcolor="#e67e22", penwidth=1.0];
+  "e_jKJb4fy8P2tb0_3jhA91JPlTuaacISxboRu62IFTWZw" [label="$jKJb4fy\nd=25686 member join:@sjckns:matrix.org\n21 Jan 2025, 05:30", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_uqrAjDJOb50njaFQmfyw7_s3QgPdfy1F1XPio7V81z0" [label="$uqrAjDJ\nd=25685 member join:@mustsmile33:matrix.org\n21 Jan 2025, 02:21", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_jG3dnRJ3JRPeBY4jEr43y1nOk8jpkzdULMSDj4vy8vY" [label="$jG3dnRJ\nd=25684 member join:@jpete085:matrix.org\n21 Jan 2025, 01:57", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_Wti8M4CpsDpsHDTBgg7_xpj19sHDbpkWf4jWKt240qM" [label="$Wti8M4C\nd=25683 member join:@nex:nexy7574.co.uk\n21 Jan 2025, 01:43", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_K8wU0NB1K7ENW7rGG3r27Bs6EZZfr8Ppa5eeJj2hO9U" [label="$K8wU0NB\nd=25682 member join:@kaya:catnip.ee\n21 Jan 2025, 00:27", style="filled,rounded", fillcolor="#3498db", penwidth=2.0];
+  "e_uT1zHAiSGKCJpl8rX4a6N4xGZn6zalyqC1RaSIiy_yA" [label="$uT1zHAi\nd=25681 member leave:@randomando35:matrix.org\n21 Jan 2025, 00:22", style="filled,rounded", fillcolor="#e67e22", penwidth=1.0];
+  "e_iRjHAQs5ADluBf_S1a8J4eFEH1U6Mj7ThyHwMcKOHVA" [label="$iRjHAQs\nd=25680 member join:@randomando35:matrix.org\n21 Jan 2025, 00:12", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_IqKcr2FcBqz5g0uLiyTV1fUtM_HkFNANIdTISKQkgug" [label="$IqKcr2F\nd=25679 member join:@maurice.hansen:mausas.de\n21 Jan 2025, 00:10", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_bOdYr__NA0LdYeQWMB_ypww_o__yjW_J5jCY2LpbiT4" [label="$bOdYr-_\nd=25678 member join:@daddyodyo:matrix.org\n21 Jan 2025, 00:05", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_Ec8dSDZHhk7xUGSyu_gYtZrKaJI3Pk_w7nW4nJ_sZh0" [label="$Ec8dSDZ\nd=25677 member join:@unseeing8191:matrix.org\n20 Jan 2025, 23:53", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+
+  "e_V_d9bTMOpKAcCad68CNYhAeJvo4Tjrk1GIaX14Ucfko" -> "e_4nq37zOdctwUZf_RbyAtS3ydEy64sMJpY57cO_mUuK0";
+  "e_p7R8tuCp3uvv9Syo1gcNh82brnr35b_i6lNBtiihhzU" -> "e_V_d9bTMOpKAcCad68CNYhAeJvo4Tjrk1GIaX14Ucfko";
+  "e_jKJb4fy8P2tb0_3jhA91JPlTuaacISxboRu62IFTWZw" -> "e_p7R8tuCp3uvv9Syo1gcNh82brnr35b_i6lNBtiihhzU";
+  "e_uqrAjDJOb50njaFQmfyw7_s3QgPdfy1F1XPio7V81z0" -> "e_jKJb4fy8P2tb0_3jhA91JPlTuaacISxboRu62IFTWZw";
+  "e_jG3dnRJ3JRPeBY4jEr43y1nOk8jpkzdULMSDj4vy8vY" -> "e_uqrAjDJOb50njaFQmfyw7_s3QgPdfy1F1XPio7V81z0";
+  "e_Wti8M4CpsDpsHDTBgg7_xpj19sHDbpkWf4jWKt240qM" -> "e_jG3dnRJ3JRPeBY4jEr43y1nOk8jpkzdULMSDj4vy8vY";
+  "e__H5tWyrpqocHNnTx1H6gn_tl_xoYn9FVMuMvb6tpoIA" [label="$-H5tWyr\n(external)", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e__H5tWyrpqocHNnTx1H6gn_tl_xoYn9FVMuMvb6tpoIA" -> "e_jG3dnRJ3JRPeBY4jEr43y1nOk8jpkzdULMSDj4vy8vY" [style=dashed];
+  "e_K8wU0NB1K7ENW7rGG3r27Bs6EZZfr8Ppa5eeJj2hO9U" -> "e_Wti8M4CpsDpsHDTBgg7_xpj19sHDbpkWf4jWKt240qM";
+  "e_uT1zHAiSGKCJpl8rX4a6N4xGZn6zalyqC1RaSIiy_yA" -> "e_K8wU0NB1K7ENW7rGG3r27Bs6EZZfr8Ppa5eeJj2hO9U";
+  "e_YfXFakVCUqCtP_sYJtdgiLqW7WVHfcbloICLClsBZ9s" [label="$YfXFakV\nd=25643 member join:@j-drizzle:matrix.org\n19 Jan 2025, 23:08", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e_YfXFakVCUqCtP_sYJtdgiLqW7WVHfcbloICLClsBZ9s" -> "e_K8wU0NB1K7ENW7rGG3r27Bs6EZZfr8Ppa5eeJj2hO9U" [style=dashed];
+  "e_aA8iE_pS4hyouWcmvLQgPwnSjUxBeLUrpE9NdHteThc" [label="$aA8iE_p\nd=25641 member join:@ch4r86:matrix.org\n19 Jan 2025, 22:25", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e_aA8iE_pS4hyouWcmvLQgPwnSjUxBeLUrpE9NdHteThc" -> "e_K8wU0NB1K7ENW7rGG3r27Bs6EZZfr8Ppa5eeJj2hO9U" [style=dashed];
+  "e__BzlZcKeU59U8vHu_UYlk0rIXovcMoSWkf_8dcS_4qk" [label="$-BzlZcK\nd=25639 member join:@pventosop:matrix.org\n19 Jan 2025, 22:16", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e__BzlZcKeU59U8vHu_UYlk0rIXovcMoSWkf_8dcS_4qk" -> "e_K8wU0NB1K7ENW7rGG3r27Bs6EZZfr8Ppa5eeJj2hO9U" [style=dashed];
+  "e_RhMXPtbkKX0_f2X6Yvs1Fp9TaWcL9tSoydc3cSRu9t8" [label="$RhMXPtb\nd=25637 member join:@evan.fetherolf:matrix.org\n19 Jan 2025, 19:46", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e_RhMXPtbkKX0_f2X6Yvs1Fp9TaWcL9tSoydc3cSRu9t8" -> "e_K8wU0NB1K7ENW7rGG3r27Bs6EZZfr8Ppa5eeJj2hO9U" [style=dashed];
+  "e_iK4isNAKdvEE89B_70NYE1xxjwwevnZMtOWB7RuNWGw" [label="$iK4isNA\nd=25609 member join:@geilerficker91:tzchat.org\n19 Jan 2025, 13:37", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e_iK4isNAKdvEE89B_70NYE1xxjwwevnZMtOWB7RuNWGw" -> "e_K8wU0NB1K7ENW7rGG3r27Bs6EZZfr8Ppa5eeJj2hO9U" [style=dashed];
+  "e_zM0JlJCEwUbN9StOoeQW_lQaOLooTsQck5htFBZUUp0" [label="$zM0JlJC\nd=25360 member join:@nex:nexy7574.co.uk\n11 Jan 2025, 14:48", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e_zM0JlJCEwUbN9StOoeQW_lQaOLooTsQck5htFBZUUp0" -> "e_K8wU0NB1K7ENW7rGG3r27Bs6EZZfr8Ppa5eeJj2hO9U" [style=dashed];
+  "e_ygEyXOq_xwQw5v_9JRct4VF4nQOHcosoUf7mhNOcx5w" [label="$ygEyXOq\nd=25339 member join:@kate_bulka:matrix.org\n10 Jan 2025, 20:14", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e_ygEyXOq_xwQw5v_9JRct4VF4nQOHcosoUf7mhNOcx5w" -> "e_K8wU0NB1K7ENW7rGG3r27Bs6EZZfr8Ppa5eeJj2hO9U" [style=dashed];
+  "e_iRjHAQs5ADluBf_S1a8J4eFEH1U6Mj7ThyHwMcKOHVA" -> "e_uT1zHAiSGKCJpl8rX4a6N4xGZn6zalyqC1RaSIiy_yA";
+  "e_IqKcr2FcBqz5g0uLiyTV1fUtM_HkFNANIdTISKQkgug" -> "e_iRjHAQs5ADluBf_S1a8J4eFEH1U6Mj7ThyHwMcKOHVA";
+  "e_bOdYr__NA0LdYeQWMB_ypww_o__yjW_J5jCY2LpbiT4" -> "e_IqKcr2FcBqz5g0uLiyTV1fUtM_HkFNANIdTISKQkgug";
+  "e_Ec8dSDZHhk7xUGSyu_gYtZrKaJI3Pk_w7nW4nJ_sZh0" -> "e_bOdYr__NA0LdYeQWMB_ypww_o__yjW_J5jCY2LpbiT4";
+  "e_YZC3OaIeG40DypFHZaJFAwU3FOS_1XPiKWJozuISydQ" [label="$YZC3OaI\nd=25676 member join:@kilojoules:waffle.tech\n20 Jan 2025, 22:25", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e_YZC3OaIeG40DypFHZaJFAwU3FOS_1XPiKWJozuISydQ" -> "e_Ec8dSDZHhk7xUGSyu_gYtZrKaJI3Pk_w7nW4nJ_sZh0" [style=dashed];
+}

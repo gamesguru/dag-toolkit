@@ -1,0 +1,66 @@
+digraph "DAG – !iMZEhwCvbfeAYUxAjZ:t2l.io\n26 May 2021\ndepth 1187..1200\nStorm #9 @ d1192..1195 (peak BF=9.0, span=4, 2 hot depths, 2 events)" {
+  rankdir=TB;
+  label="DAG – !iMZEhwCvbfeAYUxAjZ:t2l.io\n26 May 2021\ndepth 1187..1200\nStorm #9 @ d1192..1195 (peak BF=9.0, span=4, 2 hot depths, 2 events)";
+  labelloc=t;
+  labeljust=c;
+  fontsize=14;
+  fontname="monospace bold";
+  node [shape=box, style="filled,rounded", fontsize=9, fontname="monospace"];
+  edge [color="#7f8c8d"];
+
+  "e_FyQ6g8X5GsQGsGXwFBsPo8Xy7VMyVVXgFtjYYHJxL5M" [label="$FyQ6g8X\nd=1200 member leave:@peetz0r:glitch.im\n26 May 2021, 16:44", style="filled,rounded", fillcolor="#e67e22", penwidth=1.0];
+  "e_2rYTOYzxZjTRMueJgSma3yYEuJ_f4Svg8AxC3Hq41_Q" [label="$2rYTOYz\nd=1200 member join:@michael:downey.net\n26 May 2021, 16:36", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_oNzP7xivX_OV491zTATMvfS2Ij16Qd8m1t6kQAt7wO8" [label="$oNzP7xi\nd=1199 member join:@mutantmell:helveticastandard.com\n26 May 2021, 16:07", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_08Ml_7zkDL_CZa7ho7olhlhSV1ZhEY3Zs0u8SFkYmgU" [label="$08Ml_7z\nd=1198 member join:@satchel:matrix.org\n26 May 2021, 16:05", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_0oC2vTUi0kupQyTX6lzsirpSzyGmLHGICKADfWkrFuQ" [label="$0oC2vTU\nd=1197 member join:@3748wru9w:tchncs.de\n26 May 2021, 15:52", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e__ZtiMr38yw1P27z14fKnfbePs1gE10bv1joLDgmu5r4" [label="$_ZtiMr3\nd=1196 member join:@hmenke:matrix.org\n26 May 2021, 15:13", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_dmqyzo5qp0x0gZmkxjHL_VdMJSbFXnfRZoIcqzjc_oA" [label="$dmqyzo5\nd=1195 member rename:chromeilion\n26 May 2021, 14:48", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_kWHQTQrKcS6117U5lE2GURDAr7arQFfUit_MT4QMus4" [label="$kWHQTQr\nd=1194 member join:@celestialtuba:librem.one\n26 May 2021, 14:41", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_xhpojhoZ5tPpcNd_nvGWl1LuiXcTh5SMMimw7SyZxSA" [label="$xhpojho\nd=1193 member join:@celestialtuba:librem.one\n26 May 2021, 14:33", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_PUj1re5uCiDQEVUanUIQagJ6Ydixokj8Kj68_hZmSQ4" [label="$PUj1re5\nd=1193 member join:@peetz0r:glitch.im\n26 May 2021, 14:33", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_Urb_kWh9YZASLONAkXY6g6NVzD4xmoQr8V1zlDNBsBI" [label="$Urb-kWh\nd=1192 member join:@celestialtuba:librem.one\n26 May 2021, 14:14", style="filled,rounded", fillcolor="#3498db", penwidth=2.0];
+  "e_jf1032quGPd_DhOML8cfCXLwxtIiEZisA2I5c4rHa94" [label="$jf1032q\nd=1191 member join:@gpugh:staffchat.ethz.ch\n26 May 2021, 12:34", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_v5Vtd_sP2uxQpv1EuEnUMbX3kobqUlpRP8pO50YbQKs" [label="$v5Vtd-s\nd=1190 member rename:Bazsalanszky\n26 May 2021, 12:30", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e__4R7bd2j_TV0SnuB35zWUKopF7B_RB9F9lS0P6f_k78" [label="$_4R7bd2\nd=1189 member join:@valou36:matrix.org\n26 May 2021, 12:24", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_WGlaJX279KlmoSqlJg_IxYg96b9Snu6B_IMMV_QX4x0" [label="$WGlaJX2\nd=1188 member leave:@valou36:matrix.org\n26 May 2021, 12:22", style="filled,rounded", fillcolor="#e67e22", penwidth=1.0];
+  "e_LGZTz3KkbUP_SQVHmshg_AIEJLDx5MgNZ7tGN2RZ2Ek" [label="$LGZTz3K\nd=1187 member leave:@valentinrozman:matrix.org\n26 May 2021, 12:11", style="filled,rounded", fillcolor="#e67e22", penwidth=1.0];
+
+  "e_oNzP7xivX_OV491zTATMvfS2Ij16Qd8m1t6kQAt7wO8" -> "e_FyQ6g8X5GsQGsGXwFBsPo8Xy7VMyVVXgFtjYYHJxL5M";
+  "e_oNzP7xivX_OV491zTATMvfS2Ij16Qd8m1t6kQAt7wO8" -> "e_2rYTOYzxZjTRMueJgSma3yYEuJ_f4Svg8AxC3Hq41_Q";
+  "e_rkVDU_ZSXPyUWRDVShkZGuS9b8gt2z1SHJqEgps_oDk" [label="$rkVDU-Z\nd=1173 member leave:@odirf:ggc-project.de\n26 May 2021, 12:28", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e_rkVDU_ZSXPyUWRDVShkZGuS9b8gt2z1SHJqEgps_oDk" -> "e_2rYTOYzxZjTRMueJgSma3yYEuJ_f4Svg8AxC3Hq41_Q" [style=dashed];
+  "e_08Ml_7zkDL_CZa7ho7olhlhSV1ZhEY3Zs0u8SFkYmgU" -> "e_oNzP7xivX_OV491zTATMvfS2Ij16Qd8m1t6kQAt7wO8";
+  "e_0oC2vTUi0kupQyTX6lzsirpSzyGmLHGICKADfWkrFuQ" -> "e_08Ml_7zkDL_CZa7ho7olhlhSV1ZhEY3Zs0u8SFkYmgU";
+  "e__ZtiMr38yw1P27z14fKnfbePs1gE10bv1joLDgmu5r4" -> "e_0oC2vTUi0kupQyTX6lzsirpSzyGmLHGICKADfWkrFuQ";
+  "e_dmqyzo5qp0x0gZmkxjHL_VdMJSbFXnfRZoIcqzjc_oA" -> "e__ZtiMr38yw1P27z14fKnfbePs1gE10bv1joLDgmu5r4";
+  "e_kWHQTQrKcS6117U5lE2GURDAr7arQFfUit_MT4QMus4" -> "e_dmqyzo5qp0x0gZmkxjHL_VdMJSbFXnfRZoIcqzjc_oA";
+  "e_PUj1re5uCiDQEVUanUIQagJ6Ydixokj8Kj68_hZmSQ4" -> "e_dmqyzo5qp0x0gZmkxjHL_VdMJSbFXnfRZoIcqzjc_oA";
+  "e_xhpojhoZ5tPpcNd_nvGWl1LuiXcTh5SMMimw7SyZxSA" -> "e_kWHQTQrKcS6117U5lE2GURDAr7arQFfUit_MT4QMus4";
+  "e_Urb_kWh9YZASLONAkXY6g6NVzD4xmoQr8V1zlDNBsBI" -> "e_xhpojhoZ5tPpcNd_nvGWl1LuiXcTh5SMMimw7SyZxSA";
+  "e_Urb_kWh9YZASLONAkXY6g6NVzD4xmoQr8V1zlDNBsBI" -> "e_PUj1re5uCiDQEVUanUIQagJ6Ydixokj8Kj68_hZmSQ4";
+  "e_jf1032quGPd_DhOML8cfCXLwxtIiEZisA2I5c4rHa94" -> "e_Urb_kWh9YZASLONAkXY6g6NVzD4xmoQr8V1zlDNBsBI";
+  "e__FpSC0bBeZgWxVa1_Spa0RYLhOvr0qyXGr5JT1NN4_A" [label="$_FpSC0b\nd=1178 member join:@mysticspiral:matrix.org\n26 May 2021, 08:22", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e__FpSC0bBeZgWxVa1_Spa0RYLhOvr0qyXGr5JT1NN4_A" -> "e_Urb_kWh9YZASLONAkXY6g6NVzD4xmoQr8V1zlDNBsBI" [style=dashed];
+  "e_wdaDnvDf_71RyIEVkxcwMkfFrM_vGu3HL2PoDSlqat4" [label="$wdaDnvD\nd=1123 member join:@schipplock:mozilla.org\n24 May 2021, 20:24", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e_wdaDnvDf_71RyIEVkxcwMkfFrM_vGu3HL2PoDSlqat4" -> "e_Urb_kWh9YZASLONAkXY6g6NVzD4xmoQr8V1zlDNBsBI" [style=dashed];
+  "e_Ju53v8PAo_barGQpnKxVx5jNG4eAlU1cNljprfCvyp4" [label="$Ju53v8P\nd=1097 member join:@chromeilion:g24.at\n24 May 2021, 17:10", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e_Ju53v8PAo_barGQpnKxVx5jNG4eAlU1cNljprfCvyp4" -> "e_Urb_kWh9YZASLONAkXY6g6NVzD4xmoQr8V1zlDNBsBI" [style=dashed];
+  "e_qUqyOD7CBGQzemfI5hTcvUwqm9vNmz5u_d1bLMDFQ0g" [label="$qUqyOD7\nd=901 m.space.child travis\n21 May 2021, 02:17", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e_qUqyOD7CBGQzemfI5hTcvUwqm9vNmz5u_d1bLMDFQ0g" -> "e_Urb_kWh9YZASLONAkXY6g6NVzD4xmoQr8V1zlDNBsBI" [style=dashed];
+  "e_bOD_m05SvMA4CkhxvepngASrKF2gBdqQ6XaxiizfDA4" [label="$bOD-m05\nd=865 member join:@thomas:ibsgaard.io\n20 May 2021, 21:07", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e_bOD_m05SvMA4CkhxvepngASrKF2gBdqQ6XaxiizfDA4" -> "e_Urb_kWh9YZASLONAkXY6g6NVzD4xmoQr8V1zlDNBsBI" [style=dashed];
+  "e_7YTaTH_3q4D_c1_vcMdS2GinGpWIpyPBO2MXwWbYbko" [label="$7YTaTH-\nd=843 member leave:@steven:boiler.social\n20 May 2021, 18:19", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e_7YTaTH_3q4D_c1_vcMdS2GinGpWIpyPBO2MXwWbYbko" -> "e_Urb_kWh9YZASLONAkXY6g6NVzD4xmoQr8V1zlDNBsBI" [style=dashed];
+  "e_YXR0NmrwuGzMfAXwbo_jQcpAD8jo2lQBjazX4cjdx7I" [label="$YXR0Nmr\nd=828 member join:@globulis:matrix.org\n20 May 2021, 16:49", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e_YXR0NmrwuGzMfAXwbo_jQcpAD8jo2lQBjazX4cjdx7I" -> "e_Urb_kWh9YZASLONAkXY6g6NVzD4xmoQr8V1zlDNBsBI" [style=dashed];
+  "e_2mDVJB_gStZ6XDSwuCCaDWu85Adqg1Hcp375f2Ig_1A" [label="$2mDVJB-\nd=790 member join:@audrius:privacytools.io\n20 May 2021, 06:45", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e_2mDVJB_gStZ6XDSwuCCaDWu85Adqg1Hcp375f2Ig_1A" -> "e_Urb_kWh9YZASLONAkXY6g6NVzD4xmoQr8V1zlDNBsBI" [style=dashed];
+  "e_v5Vtd_sP2uxQpv1EuEnUMbX3kobqUlpRP8pO50YbQKs" -> "e_jf1032quGPd_DhOML8cfCXLwxtIiEZisA2I5c4rHa94";
+  "e__4R7bd2j_TV0SnuB35zWUKopF7B_RB9F9lS0P6f_k78" -> "e_v5Vtd_sP2uxQpv1EuEnUMbX3kobqUlpRP8pO50YbQKs";
+  "e_WGlaJX279KlmoSqlJg_IxYg96b9Snu6B_IMMV_QX4x0" -> "e__4R7bd2j_TV0SnuB35zWUKopF7B_RB9F9lS0P6f_k78";
+  "e_LGZTz3KkbUP_SQVHmshg_AIEJLDx5MgNZ7tGN2RZ2Ek" -> "e_WGlaJX279KlmoSqlJg_IxYg96b9Snu6B_IMMV_QX4x0";
+  "e_CKOmmFZqdR7l3_6JN5QUHtQ49v4IWO74dVovxpFXvuI" [label="$CKOmmFZ\nd=1186 member join:@valentinrozman:matrix.org\n26 May 2021, 12:11", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e_CKOmmFZqdR7l3_6JN5QUHtQ49v4IWO74dVovxpFXvuI" -> "e_LGZTz3KkbUP_SQVHmshg_AIEJLDx5MgNZ7tGN2RZ2Ek" [style=dashed];
+  { rank=same; "e_xhpojhoZ5tPpcNd_nvGWl1LuiXcTh5SMMimw7SyZxSA"; "e_PUj1re5uCiDQEVUanUIQagJ6Ydixokj8Kj68_hZmSQ4" }
+  { rank=same; "e_FyQ6g8X5GsQGsGXwFBsPo8Xy7VMyVVXgFtjYYHJxL5M"; "e_2rYTOYzxZjTRMueJgSma3yYEuJ_f4Svg8AxC3Hq41_Q" }
+}

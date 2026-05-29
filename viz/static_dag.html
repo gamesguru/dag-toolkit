@@ -66,6 +66,11 @@
         padding: 5px 12px;
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 6px;
+        background: rgba(255, 255, 255, 0.05);
+        color: #fff;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
         background: rgba(255, 255, 255, 0.04);
         color: #aaa;
         cursor: pointer;
@@ -743,13 +748,9 @@
       function getAuth() {
         let hs = null;
         let token = null;
-        try {
-          hs = localStorage.getItem("hs_url") || getCookie("hs_url");
-        } catch (e) {}
-        try {
-          token =
-            localStorage.getItem("access_token") || getCookie("access_token");
-        } catch (e) {}
+        try { hs = localStorage.getItem("hs_url") || getCookie("hs_url"); } catch (e) {}
+        try { token = localStorage.getItem("access_token") || getCookie("access_token"); } catch (e) {}
+        if (hs && !hs.startsWith("http")) hs = "https://" + hs;
         return { hs, token };
       }
 
@@ -790,7 +791,7 @@
       }
 
       async function handleLogin() {
-        const hs = document.getElementById("hs-input").value.replace(/\/$/, "");
+        let hs = document.getElementById("hs-input").value.replace(/\/$/, "");
         const token = document.getElementById("token-input").value.trim();
         const errEl = document.getElementById("login-error");
 
@@ -799,16 +800,31 @@
           errEl.style.display = "block";
           return;
         }
+        
+        if (!hs.startsWith("http")) {
+          hs = "https://" + hs;
+        }
 
         const btn = document.getElementById("btn-login");
         btn.textContent = "Connecting...";
         btn.disabled = true;
 
         try {
+          // Perform .well-known discovery if possible
+          try {
+            const wkRes = await fetch(`${hs}/.well-known/matrix/client`);
+            if (wkRes.ok) {
+              const wkData = await wkRes.json();
+              if (wkData && wkData["m.homeserver"] && wkData["m.homeserver"].base_url) {
+                hs = wkData["m.homeserver"].base_url.replace(/\/$/, "");
+              }
+            }
+          } catch (wkErr) {
+            console.log("No .well-known discovery found, using provided URL.");
+          }
+
           // Verify token by fetching joined rooms
-          const res = await fetch(`${hs}/_matrix/client/v3/joined_rooms`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
+          const res = await fetch(`${hs}/_matrix/client/v3/joined_rooms?access_token=${token}`);
           if (!res.ok) {
             const errData = await res.json().catch(() => ({}));
             throw new Error(errData.error || "Invalid token or homeserver");
@@ -838,57 +854,26 @@
         if (!hs || !token) return;
 
         try {
-          // Fetch synced rooms with names and aliases
-          const filter = encodeURIComponent(
-            JSON.stringify({
-              room: {
-                timeline: { limit: 1 },
-                state: { types: ["m.room.name", "m.room.canonical_alias"] },
-              },
-            }),
-          );
-          const res = await fetch(
-            `${hs}/_matrix/client/v3/sync?timeout=0&filter=${filter}`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            },
-          );
+          const res = await fetch(`${hs}/_matrix/client/v3/joined_rooms?access_token=${token}`);
           if (res.status === 401) {
             clearAuth();
             showLogin();
             return;
           }
+          if (!res.ok) throw new Error("Failed to fetch joined_rooms");
           const data = await res.json();
-          const joined = data.rooms?.join || {};
+          const joinedRooms = data.joined_rooms || [];
 
           const select = document.getElementById("room-select");
           select.innerHTML = '<option value="">-- Select a Room --</option>';
 
-          const rooms = [];
-          for (const [roomId, roomData] of Object.entries(joined)) {
-            let name = roomId;
-            const stateEvents = roomData.state?.events || [];
-            const nameEv = stateEvents.find((e) => e.type === "m.room.name");
-            const aliasEv = stateEvents.find(
-              (e) => e.type === "m.room.canonical_alias",
-            );
+          // Sort room IDs alphabetically
+          joinedRooms.sort((a, b) => a.localeCompare(b));
 
-            if (nameEv && nameEv.content && nameEv.content.name) {
-              name = nameEv.content.name;
-            } else if (aliasEv && aliasEv.content && aliasEv.content.alias) {
-              name = aliasEv.content.alias;
-            }
-
-            rooms.push({ id: roomId, name: name });
-          }
-
-          // Sort rooms alphabetically
-          rooms.sort((a, b) => a.name.localeCompare(b.name));
-
-          rooms.forEach((room) => {
+          joinedRooms.forEach((roomId) => {
             const opt = document.createElement("option");
-            opt.value = room.id;
-            opt.textContent = room.name;
+            opt.value = roomId;
+            opt.textContent = roomId; // For forensic DAG analysis, Room IDs are perfect
             select.appendChild(opt);
           });
 
@@ -906,11 +891,12 @@
             }
           };
         } catch (err) {
-          console.error("Failed to load rooms", err);
+          console.error(`Failed to load rooms from ${hs}`, err);
           const errEl = document.getElementById("login-error");
           if (errEl) {
-            errEl.textContent = "Failed to load rooms: " + err.message;
+            errEl.textContent = `Failed to load rooms from ${hs}: ` + err.message;
             errEl.style.display = "block";
+            clearAuth(); // wipe the bad state so they aren't stuck
             showLogin();
           }
         }
@@ -928,16 +914,35 @@
           try {
             const tail =
               parseInt(document.getElementById("tail-input").value) || 100;
-            const res = await fetch(
-              `${hs}/_matrix/client/v3/rooms/${encodeURIComponent(currentRoomId)}/messages?dir=b&limit=${tail}`,
-              { headers: { Authorization: `Bearer ${token}` } },
-            );
-            if (!res.ok) throw new Error(await res.text());
-            const data = await res.json();
+            const eventId = document.getElementById("event-input").value.trim();
 
-            ALL_EVENTS = data.chunk || [];
-            if (data.state) {
-              ALL_EVENTS = ALL_EVENTS.concat(data.state);
+            if (eventId) {
+              const res = await fetch(
+                `${hs}/_matrix/client/v3/rooms/${encodeURIComponent(currentRoomId)}/context/${encodeURIComponent(eventId)}?limit=${tail}&access_token=${token}`
+              );
+              if (!res.ok) throw new Error(await res.text());
+              const data = await res.json();
+              
+              ALL_EVENTS = [
+                ...(data.events_before || []),
+                data.event,
+                ...(data.events_after || [])
+              ].filter(Boolean);
+              
+              if (data.state) {
+                ALL_EVENTS = ALL_EVENTS.concat(data.state);
+              }
+            } else {
+              const res = await fetch(
+                `${hs}/_matrix/client/v3/rooms/${encodeURIComponent(currentRoomId)}/messages?dir=b&limit=${tail}&access_token=${token}`
+              );
+              if (!res.ok) throw new Error(await res.text());
+              const data = await res.json();
+
+              ALL_EVENTS = data.chunk || [];
+              if (data.state) {
+                ALL_EVENTS = ALL_EVENTS.concat(data.state);
+              }
             }
 
             updateGraph();

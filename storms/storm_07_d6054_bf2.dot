@@ -1,0 +1,64 @@
+digraph "DAG – !iMZEhwCvbfeAYUxAjZ:t2l.io\n22 Apr – 23 Apr 2022\ndepth 6049..6065\nStorm #7 @ d6054..6060 (peak BF=2.0, span=7, 4 hot depths, 5 events)" {
+  rankdir=TB;
+  label="DAG – !iMZEhwCvbfeAYUxAjZ:t2l.io\n22 Apr – 23 Apr 2022\ndepth 6049..6065\nStorm #7 @ d6054..6060 (peak BF=2.0, span=7, 4 hot depths, 5 events)";
+  labelloc=t;
+  labeljust=c;
+  fontsize=14;
+  fontname="monospace bold";
+  node [shape=box, style="filled,rounded", fontsize=9, fontname="monospace"];
+  edge [color="#7f8c8d"];
+
+  "e_mqJWXfs4vOKJILEV6R5d0p3RNoQbY5ol_Zn0_V6NcXQ" [label="$mqJWXfs\nd=6065 member join:@gonffff:matrix.org\n23 Apr 2022, 08:28", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_A1iJkGAZjuRcNp94NNUDEuaCX4iqaugxrq1WN5kfyOU" [label="$A1iJkGA\nd=6064 member leave:@86ul:tchncs.de\n23 Apr 2022, 08:09", style="filled,rounded", fillcolor="#e67e22", penwidth=1.0];
+  "e_w9CpAOe7B_vGbTr_6zm7kHkl2k123pjsYuKiXD9PCxM" [label="$w9CpAOe\nd=6063 member join:@t.aggelos:matrix.org\n22 Apr 2022, 22:49", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_UFJ0r7G1aCDDZmo1VVb_T1qCWil92_th7a0nZOY_eDw" [label="$UFJ0r7G\nd=6062 member join:@t.aggelos:matrix.org\n22 Apr 2022, 22:48", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_VCpGai6tb24aDQx4VldurqCeEgLfPqoMdIrBkiv8BrE" [label="$VCpGai6\nd=6061 server_acl abuse\n22 Apr 2022, 21:02", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_VkFIjCPUjRFqRXLWg7Kxv15VxI_YTRQfWL3U7xY3OH4" [label="$VkFIjCP\nd=6060 server_acl abuse\n22 Apr 2022, 21:01", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e__ltQKM_hXLdDzd32M8WOyoEmmGhI0yn4DukW0gP2_T0" [label="$_ltQKM_\nd=6059 server_acl abuse\n22 Apr 2022, 20:49", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_knoou1wC9g2EQRJziE2A_Ul802HiySD16gmiY4uSfQo" [label="$knoou1w\nd=6059 server_acl abuse\n22 Apr 2022, 20:49", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_JmCFa0l2lx_cM87MvwVL3UNKTLgaimC83l_Lp6hCs2o" [label="$JmCFa0l\nd=6058 server_acl abuse\n22 Apr 2022, 20:45", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_ve1dUCX4dq7uzjImt5xGEooUiQA0ARwggxd0KZd89JI" [label="$ve1dUCX\nd=6058 server_acl abuse\n22 Apr 2022, 20:45", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_Qn1_56bUigoYf9T_5tWpZ8GzV3Q6dxlxLkQLUnOSD6Q" [label="$Qn1-56b\nd=6057 server_acl abuse\n22 Apr 2022, 20:45", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_6da9XoO_SgQauvylEHv9CPe1cx392sGh13wy2PuTZqA" [label="$6da9XoO\nd=6056 server_acl abuse\n22 Apr 2022, 20:45", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_5hZRDh9OgIevoD1GFid1gvL9077Ctzx37iYL3FYPOdo" [label="$5hZRDh9\nd=6055 server_acl abuse\n22 Apr 2022, 20:44", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_sFw5TwUW2Z09vAz71IYhcGFyvpdUnEdnL4mwvSpVItE" [label="$sFw5TwU\nd=6055 server_acl abuse\n22 Apr 2022, 20:44", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_kI2EaSzI39beMM18sewSSAhzITBhOXZGw17yCPj4QFY" [label="$kI2EaSz\nd=6054 server_acl abuse\n22 Apr 2022, 20:40", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_uuvbeGBEPa3BPV_OD1dk8bejAhd_0f3FzNWysoH2JEE" [label="$uuvbeGB\nd=6053 server_acl abuse\n22 Apr 2022, 20:38", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_YFKYlVJADQazStQ1QyO_hfQU736W2kSlmTsFPnYZJjg" [label="$YFKYlVJ\nd=6053 server_acl abuse\n22 Apr 2022, 20:38", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_9D9hwKOXzDE1qmoteeUU6WrcKxGL5tQmM91X3Gq5mFs" [label="$9D9hwKO\nd=6052 server_acl abuse\n22 Apr 2022, 20:35", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_VnAZIfS8uF_jnP5uRKQDrTWlDCvZxJZwrXaD_keV33I" [label="$VnAZIfS\nd=6051 server_acl abuse\n22 Apr 2022, 20:35", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e__AHuqNWvi5I0wQ5fC6z31rIZyH04_oJ0kpukelJ7ZyQ" [label="$-AHuqNW\nd=6050 server_acl abuse\n22 Apr 2022, 20:34", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_GHUrTEjad5KMgF1ZsBpYOInMLWQw64m5FPAP9d0VqpY" [label="$GHUrTEj\nd=6049 server_acl abuse\n22 Apr 2022, 20:33", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+
+  "e_A1iJkGAZjuRcNp94NNUDEuaCX4iqaugxrq1WN5kfyOU" -> "e_mqJWXfs4vOKJILEV6R5d0p3RNoQbY5ol_Zn0_V6NcXQ";
+  "e_w9CpAOe7B_vGbTr_6zm7kHkl2k123pjsYuKiXD9PCxM" -> "e_A1iJkGAZjuRcNp94NNUDEuaCX4iqaugxrq1WN5kfyOU";
+  "e_UFJ0r7G1aCDDZmo1VVb_T1qCWil92_th7a0nZOY_eDw" -> "e_w9CpAOe7B_vGbTr_6zm7kHkl2k123pjsYuKiXD9PCxM";
+  "e_VCpGai6tb24aDQx4VldurqCeEgLfPqoMdIrBkiv8BrE" -> "e_UFJ0r7G1aCDDZmo1VVb_T1qCWil92_th7a0nZOY_eDw";
+  "e_VkFIjCPUjRFqRXLWg7Kxv15VxI_YTRQfWL3U7xY3OH4" -> "e_VCpGai6tb24aDQx4VldurqCeEgLfPqoMdIrBkiv8BrE";
+  "e_knoou1wC9g2EQRJziE2A_Ul802HiySD16gmiY4uSfQo" -> "e_VkFIjCPUjRFqRXLWg7Kxv15VxI_YTRQfWL3U7xY3OH4";
+  "e__ltQKM_hXLdDzd32M8WOyoEmmGhI0yn4DukW0gP2_T0" -> "e_VkFIjCPUjRFqRXLWg7Kxv15VxI_YTRQfWL3U7xY3OH4";
+  "e_ve1dUCX4dq7uzjImt5xGEooUiQA0ARwggxd0KZd89JI" -> "e__ltQKM_hXLdDzd32M8WOyoEmmGhI0yn4DukW0gP2_T0";
+  "e_JmCFa0l2lx_cM87MvwVL3UNKTLgaimC83l_Lp6hCs2o" -> "e__ltQKM_hXLdDzd32M8WOyoEmmGhI0yn4DukW0gP2_T0";
+  "e_ve1dUCX4dq7uzjImt5xGEooUiQA0ARwggxd0KZd89JI" -> "e_knoou1wC9g2EQRJziE2A_Ul802HiySD16gmiY4uSfQo";
+  "e_JmCFa0l2lx_cM87MvwVL3UNKTLgaimC83l_Lp6hCs2o" -> "e_knoou1wC9g2EQRJziE2A_Ul802HiySD16gmiY4uSfQo";
+  "e_Qn1_56bUigoYf9T_5tWpZ8GzV3Q6dxlxLkQLUnOSD6Q" -> "e_JmCFa0l2lx_cM87MvwVL3UNKTLgaimC83l_Lp6hCs2o";
+  "e_Qn1_56bUigoYf9T_5tWpZ8GzV3Q6dxlxLkQLUnOSD6Q" -> "e_ve1dUCX4dq7uzjImt5xGEooUiQA0ARwggxd0KZd89JI";
+  "e_6da9XoO_SgQauvylEHv9CPe1cx392sGh13wy2PuTZqA" -> "e_Qn1_56bUigoYf9T_5tWpZ8GzV3Q6dxlxLkQLUnOSD6Q";
+  "e_5hZRDh9OgIevoD1GFid1gvL9077Ctzx37iYL3FYPOdo" -> "e_6da9XoO_SgQauvylEHv9CPe1cx392sGh13wy2PuTZqA";
+  "e_sFw5TwUW2Z09vAz71IYhcGFyvpdUnEdnL4mwvSpVItE" -> "e_6da9XoO_SgQauvylEHv9CPe1cx392sGh13wy2PuTZqA";
+  "e_kI2EaSzI39beMM18sewSSAhzITBhOXZGw17yCPj4QFY" -> "e_5hZRDh9OgIevoD1GFid1gvL9077Ctzx37iYL3FYPOdo";
+  "e_kI2EaSzI39beMM18sewSSAhzITBhOXZGw17yCPj4QFY" -> "e_sFw5TwUW2Z09vAz71IYhcGFyvpdUnEdnL4mwvSpVItE";
+  "e_YFKYlVJADQazStQ1QyO_hfQU736W2kSlmTsFPnYZJjg" -> "e_kI2EaSzI39beMM18sewSSAhzITBhOXZGw17yCPj4QFY";
+  "e_uuvbeGBEPa3BPV_OD1dk8bejAhd_0f3FzNWysoH2JEE" -> "e_kI2EaSzI39beMM18sewSSAhzITBhOXZGw17yCPj4QFY";
+  "e_9D9hwKOXzDE1qmoteeUU6WrcKxGL5tQmM91X3Gq5mFs" -> "e_uuvbeGBEPa3BPV_OD1dk8bejAhd_0f3FzNWysoH2JEE";
+  "e_9D9hwKOXzDE1qmoteeUU6WrcKxGL5tQmM91X3Gq5mFs" -> "e_YFKYlVJADQazStQ1QyO_hfQU736W2kSlmTsFPnYZJjg";
+  "e_VnAZIfS8uF_jnP5uRKQDrTWlDCvZxJZwrXaD_keV33I" -> "e_9D9hwKOXzDE1qmoteeUU6WrcKxGL5tQmM91X3Gq5mFs";
+  "e__AHuqNWvi5I0wQ5fC6z31rIZyH04_oJ0kpukelJ7ZyQ" -> "e_VnAZIfS8uF_jnP5uRKQDrTWlDCvZxJZwrXaD_keV33I";
+  "e_GHUrTEjad5KMgF1ZsBpYOInMLWQw64m5FPAP9d0VqpY" -> "e__AHuqNWvi5I0wQ5fC6z31rIZyH04_oJ0kpukelJ7ZyQ";
+  "e_tA0X7cwWkoM6rwftiT2etkb4X26kt2FUrZIiobig12s" [label="$tA0X7cw\nd=6048 server_acl abuse\n22 Apr 2022, 20:29", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e_tA0X7cwWkoM6rwftiT2etkb4X26kt2FUrZIiobig12s" -> "e_GHUrTEjad5KMgF1ZsBpYOInMLWQw64m5FPAP9d0VqpY" [style=dashed];
+  { rank=same; "e_uuvbeGBEPa3BPV_OD1dk8bejAhd_0f3FzNWysoH2JEE"; "e_YFKYlVJADQazStQ1QyO_hfQU736W2kSlmTsFPnYZJjg" }
+  { rank=same; "e_5hZRDh9OgIevoD1GFid1gvL9077Ctzx37iYL3FYPOdo"; "e_sFw5TwUW2Z09vAz71IYhcGFyvpdUnEdnL4mwvSpVItE" }
+  { rank=same; "e_JmCFa0l2lx_cM87MvwVL3UNKTLgaimC83l_Lp6hCs2o"; "e_ve1dUCX4dq7uzjImt5xGEooUiQA0ARwggxd0KZd89JI" }
+  { rank=same; "e__ltQKM_hXLdDzd32M8WOyoEmmGhI0yn4DukW0gP2_T0"; "e_knoou1wC9g2EQRJziE2A_Ul802HiySD16gmiY4uSfQo" }
+}

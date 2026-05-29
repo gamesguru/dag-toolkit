@@ -1,0 +1,72 @@
+digraph "DAG – !iMZEhwCvbfeAYUxAjZ:t2l.io\n5 Feb – 6 Feb 2022\ndepth 5016..5029\nStorm #6 @ d5021..5024 (peak BF=5.0, span=4, 4 hot depths, 10 events)" {
+  rankdir=TB;
+  label="DAG – !iMZEhwCvbfeAYUxAjZ:t2l.io\n5 Feb – 6 Feb 2022\ndepth 5016..5029\nStorm #6 @ d5021..5024 (peak BF=5.0, span=4, 4 hot depths, 10 events)";
+  labelloc=t;
+  labeljust=c;
+  fontsize=14;
+  fontname="monospace bold";
+  node [shape=box, style="filled,rounded", fontsize=9, fontname="monospace"];
+  edge [color="#7f8c8d"];
+
+  "e_IjW8iTvafSr87KxeTUrnWpVZcItrjEG5EJAWzFoooTY" [label="$IjW8iTv\nd=5029 member join:@test:000246.xyz\n6 Feb 2022, 13:24", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_w5veySEm18sFGXKgF2hGyv2T0aJyIbowMxiAzaSBDNk" [label="$w5veySE\nd=5028 member join:@test:000246.xyz\n6 Feb 2022, 13:23", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_ImWS2ohwdfY3s9DrODrEP52DDXQmzLK6IE9DHLPjLnc" [label="$ImWS2oh\nd=5027 member join:@devero:matrix.org\n6 Feb 2022, 11:34", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_zDpwW7opVi0O_289vp5KIAbufPDwkYPKTaG2N0HpBvI" [label="$zDpwW7o\nd=5026 member join:@optimal:kde.org\n6 Feb 2022, 11:32", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_vA4LlQfEIxVkc1ptRvpGIr3PqhsIAnN2EWijsVP_BB0" [label="$vA4LlQf\nd=5025 member leave:@madscientist28:matrix.org\n6 Feb 2022, 11:15", style="filled,rounded", fillcolor="#e67e22", penwidth=1.0];
+  "e_jFboy1CFQ9bFegn__pngbMk6_QorOGVgKBCsr3GOpQU" [label="$jFboy1C\nd=5024 member join:@arche_dev:envs.net\n6 Feb 2022, 11:07", style="filled,rounded", fillcolor="#3498db", penwidth=2.0];
+  "e_dji0TjnnRj_yN25iPbQ342pXbK_Poz6WIeQcT0JS1kY" [label="$dji0Tjn\nd=5023 server_acl abuse\n6 Feb 2022, 06:30", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_OBvmvShvgNs8Fo8kdJYPQePaNdREf3r35ItaJLZ5c2M" [label="$OBvmvSh\nd=5023 server_acl abuse\n6 Feb 2022, 06:30", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_eXK2xlZW8QpiWcCU2_eW4XhDZEOafGwbIxdvqiwIHbw" [label="$eXK2xlZ\nd=5023 server_acl abuse\n6 Feb 2022, 06:30", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_QeSuU4ICW1SETSto0wCUAZirf5oGebOo2XjfSqunV8Y" [label="$QeSuU4I\nd=5023 server_acl abuse\n6 Feb 2022, 06:30", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_GrvUC3kMAvQ6ZhktJXzBC6Iq_eqllz5BdLrWCTYnRYI" [label="$GrvUC3k\nd=5023 server_acl abuse\n6 Feb 2022, 06:30", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_50ficN0ZNbOlmbWL5ppq6fvUea3MJ3xEppKvrrBaw7E" [label="$50ficN0\nd=5022 server_acl abuse\n6 Feb 2022, 06:29", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_IFu7dAtmEvyFz_VCaG6BWMB0TpksviLzrFO2DoTKeYE" [label="$IFu7dAt\nd=5022 server_acl abuse\n6 Feb 2022, 06:29", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_gxQFTn2cnmxZ90UqV529PxpPf3XBQ6HXRG_B2fV_iQ0" [label="$gxQFTn2\nd=5021 server_acl abuse\n6 Feb 2022, 06:29", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_syeKlt4zQ2qJZIgI0wZ_zG0maeGFRGxms9LhhuZzC14" [label="$syeKlt4\nd=5021 server_acl abuse\n6 Feb 2022, 06:29", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_4ze9qAwzSnf05a9BVZRNbPOGO22t8EQwIM1pL4E7BhA" [label="$4ze9qAw\nd=5020 server_acl abuse\n6 Feb 2022, 06:29", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_KZ5YYr50WvN7xuzXnuG8wbX8Qirrut7x_zSBJbHbuDw" [label="$KZ5YYr5\nd=5020 server_acl abuse\n6 Feb 2022, 06:29", style="filled,rounded", fillcolor="#bdc3c7", penwidth=1.0];
+  "e_MoV7jwx90V3nL__cDRowIPn2i1B5g8AYoXkizO6Ba20" [label="$MoV7jwx\nd=5019 member join:@michael:downey.net\n5 Feb 2022, 23:20", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_Oo8lFiBqJwsodEPMxZLqTXDHjuhrOycncZlc_zHaOug" [label="$Oo8lFiB\nd=5018 member join:@rainer:geigernet.eu\n5 Feb 2022, 22:09", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_xT0jvY5d49EUrI3gf_dYj_kf8cTtuBi6nergI3IKGnE" [label="$xT0jvY5\nd=5017 member join:@hof:matrix.org\n5 Feb 2022, 21:53", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+  "e_Cg_VipJaXgKtsE0uCyZaWPxUJWyjireTOKYPXLQ30WM" [label="$Cg-VipJ\nd=5016 member join:@zainsid557:matrix.org\n5 Feb 2022, 20:58", style="filled,rounded", fillcolor="#3498db", penwidth=1.0];
+
+  "e_w5veySEm18sFGXKgF2hGyv2T0aJyIbowMxiAzaSBDNk" -> "e_IjW8iTvafSr87KxeTUrnWpVZcItrjEG5EJAWzFoooTY";
+  "e_ImWS2ohwdfY3s9DrODrEP52DDXQmzLK6IE9DHLPjLnc" -> "e_w5veySEm18sFGXKgF2hGyv2T0aJyIbowMxiAzaSBDNk";
+  "e_zDpwW7opVi0O_289vp5KIAbufPDwkYPKTaG2N0HpBvI" -> "e_ImWS2ohwdfY3s9DrODrEP52DDXQmzLK6IE9DHLPjLnc";
+  "e_vA4LlQfEIxVkc1ptRvpGIr3PqhsIAnN2EWijsVP_BB0" -> "e_zDpwW7opVi0O_289vp5KIAbufPDwkYPKTaG2N0HpBvI";
+  "e_jFboy1CFQ9bFegn__pngbMk6_QorOGVgKBCsr3GOpQU" -> "e_vA4LlQfEIxVkc1ptRvpGIr3PqhsIAnN2EWijsVP_BB0";
+  "e_QeSuU4ICW1SETSto0wCUAZirf5oGebOo2XjfSqunV8Y" -> "e_jFboy1CFQ9bFegn__pngbMk6_QorOGVgKBCsr3GOpQU";
+  "e_dji0TjnnRj_yN25iPbQ342pXbK_Poz6WIeQcT0JS1kY" -> "e_jFboy1CFQ9bFegn__pngbMk6_QorOGVgKBCsr3GOpQU";
+  "e_eXK2xlZW8QpiWcCU2_eW4XhDZEOafGwbIxdvqiwIHbw" -> "e_jFboy1CFQ9bFegn__pngbMk6_QorOGVgKBCsr3GOpQU";
+  "e_OBvmvShvgNs8Fo8kdJYPQePaNdREf3r35ItaJLZ5c2M" -> "e_jFboy1CFQ9bFegn__pngbMk6_QorOGVgKBCsr3GOpQU";
+  "e_GrvUC3kMAvQ6ZhktJXzBC6Iq_eqllz5BdLrWCTYnRYI" -> "e_jFboy1CFQ9bFegn__pngbMk6_QorOGVgKBCsr3GOpQU";
+  "e_IFu7dAtmEvyFz_VCaG6BWMB0TpksviLzrFO2DoTKeYE" -> "e_dji0TjnnRj_yN25iPbQ342pXbK_Poz6WIeQcT0JS1kY";
+  "e_50ficN0ZNbOlmbWL5ppq6fvUea3MJ3xEppKvrrBaw7E" -> "e_dji0TjnnRj_yN25iPbQ342pXbK_Poz6WIeQcT0JS1kY";
+  "e_IFu7dAtmEvyFz_VCaG6BWMB0TpksviLzrFO2DoTKeYE" -> "e_OBvmvShvgNs8Fo8kdJYPQePaNdREf3r35ItaJLZ5c2M";
+  "e_50ficN0ZNbOlmbWL5ppq6fvUea3MJ3xEppKvrrBaw7E" -> "e_OBvmvShvgNs8Fo8kdJYPQePaNdREf3r35ItaJLZ5c2M";
+  "e_IFu7dAtmEvyFz_VCaG6BWMB0TpksviLzrFO2DoTKeYE" -> "e_eXK2xlZW8QpiWcCU2_eW4XhDZEOafGwbIxdvqiwIHbw";
+  "e_50ficN0ZNbOlmbWL5ppq6fvUea3MJ3xEppKvrrBaw7E" -> "e_eXK2xlZW8QpiWcCU2_eW4XhDZEOafGwbIxdvqiwIHbw";
+  "e_IFu7dAtmEvyFz_VCaG6BWMB0TpksviLzrFO2DoTKeYE" -> "e_QeSuU4ICW1SETSto0wCUAZirf5oGebOo2XjfSqunV8Y";
+  "e_50ficN0ZNbOlmbWL5ppq6fvUea3MJ3xEppKvrrBaw7E" -> "e_QeSuU4ICW1SETSto0wCUAZirf5oGebOo2XjfSqunV8Y";
+  "e_IFu7dAtmEvyFz_VCaG6BWMB0TpksviLzrFO2DoTKeYE" -> "e_GrvUC3kMAvQ6ZhktJXzBC6Iq_eqllz5BdLrWCTYnRYI";
+  "e_50ficN0ZNbOlmbWL5ppq6fvUea3MJ3xEppKvrrBaw7E" -> "e_GrvUC3kMAvQ6ZhktJXzBC6Iq_eqllz5BdLrWCTYnRYI";
+  "e_gxQFTn2cnmxZ90UqV529PxpPf3XBQ6HXRG_B2fV_iQ0" -> "e_50ficN0ZNbOlmbWL5ppq6fvUea3MJ3xEppKvrrBaw7E";
+  "e_syeKlt4zQ2qJZIgI0wZ_zG0maeGFRGxms9LhhuZzC14" -> "e_50ficN0ZNbOlmbWL5ppq6fvUea3MJ3xEppKvrrBaw7E";
+  "e_gxQFTn2cnmxZ90UqV529PxpPf3XBQ6HXRG_B2fV_iQ0" -> "e_IFu7dAtmEvyFz_VCaG6BWMB0TpksviLzrFO2DoTKeYE";
+  "e_syeKlt4zQ2qJZIgI0wZ_zG0maeGFRGxms9LhhuZzC14" -> "e_IFu7dAtmEvyFz_VCaG6BWMB0TpksviLzrFO2DoTKeYE";
+  "e_KZ5YYr50WvN7xuzXnuG8wbX8Qirrut7x_zSBJbHbuDw" -> "e_gxQFTn2cnmxZ90UqV529PxpPf3XBQ6HXRG_B2fV_iQ0";
+  "e_4ze9qAwzSnf05a9BVZRNbPOGO22t8EQwIM1pL4E7BhA" -> "e_gxQFTn2cnmxZ90UqV529PxpPf3XBQ6HXRG_B2fV_iQ0";
+  "e_KZ5YYr50WvN7xuzXnuG8wbX8Qirrut7x_zSBJbHbuDw" -> "e_syeKlt4zQ2qJZIgI0wZ_zG0maeGFRGxms9LhhuZzC14";
+  "e_4ze9qAwzSnf05a9BVZRNbPOGO22t8EQwIM1pL4E7BhA" -> "e_syeKlt4zQ2qJZIgI0wZ_zG0maeGFRGxms9LhhuZzC14";
+  "e_MoV7jwx90V3nL__cDRowIPn2i1B5g8AYoXkizO6Ba20" -> "e_4ze9qAwzSnf05a9BVZRNbPOGO22t8EQwIM1pL4E7BhA";
+  "e_MoV7jwx90V3nL__cDRowIPn2i1B5g8AYoXkizO6Ba20" -> "e_KZ5YYr50WvN7xuzXnuG8wbX8Qirrut7x_zSBJbHbuDw";
+  "e_Oo8lFiBqJwsodEPMxZLqTXDHjuhrOycncZlc_zHaOug" -> "e_MoV7jwx90V3nL__cDRowIPn2i1B5g8AYoXkizO6Ba20";
+  "e_xT0jvY5d49EUrI3gf_dYj_kf8cTtuBi6nergI3IKGnE" -> "e_Oo8lFiBqJwsodEPMxZLqTXDHjuhrOycncZlc_zHaOug";
+  "e_Cg_VipJaXgKtsE0uCyZaWPxUJWyjireTOKYPXLQ30WM" -> "e_xT0jvY5d49EUrI3gf_dYj_kf8cTtuBi6nergI3IKGnE";
+  "e_nHpjwNlI3XEIbcNIgiJZZ5UfqjGbEPgBrbrs904UxAU" [label="$nHpjwNl\nd=5015 member join:@sgt.salami:matrix.org\n5 Feb 2022, 20:53", style="dashed,rounded", fillcolor="#f5f5f5"];
+  "e_nHpjwNlI3XEIbcNIgiJZZ5UfqjGbEPgBrbrs904UxAU" -> "e_Cg_VipJaXgKtsE0uCyZaWPxUJWyjireTOKYPXLQ30WM" [style=dashed];
+  { rank=same; "e_4ze9qAwzSnf05a9BVZRNbPOGO22t8EQwIM1pL4E7BhA"; "e_KZ5YYr50WvN7xuzXnuG8wbX8Qirrut7x_zSBJbHbuDw" }
+  { rank=same; "e_gxQFTn2cnmxZ90UqV529PxpPf3XBQ6HXRG_B2fV_iQ0"; "e_syeKlt4zQ2qJZIgI0wZ_zG0maeGFRGxms9LhhuZzC14" }
+  { rank=same; "e_50ficN0ZNbOlmbWL5ppq6fvUea3MJ3xEppKvrrBaw7E"; "e_IFu7dAtmEvyFz_VCaG6BWMB0TpksviLzrFO2DoTKeYE" }
+  { rank=same; "e_dji0TjnnRj_yN25iPbQ342pXbK_Poz6WIeQcT0JS1kY"; "e_OBvmvShvgNs8Fo8kdJYPQePaNdREf3r35ItaJLZ5c2M"; "e_eXK2xlZW8QpiWcCU2_eW4XhDZEOafGwbIxdvqiwIHbw"; "e_QeSuU4ICW1SETSto0wCUAZirf5oGebOo2XjfSqunV8Y"; "e_GrvUC3kMAvQ6ZhktJXzBC6Iq_eqllz5BdLrWCTYnRYI" }
+}
